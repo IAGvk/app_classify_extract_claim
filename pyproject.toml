@@ -1,0 +1,143 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "app-classify-extract-claim"
+version = "1.0.0"
+description = "Agentic AI pipeline for end-to-end insurance claims classification, extraction and lodgement."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "Proprietary" }
+authors = [
+  { name = "IAG VK Team" },
+]
+keywords = ["insurance", "claims", "langgraph", "gemini", "ai", "agentic"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Private :: Do Not Upload",
+]
+dependencies = [
+  "langgraph>=0.2.0",
+  "langchain-core>=0.3.0",
+  "langchain-google-vertexai>=2.0.0",
+  "pydantic>=2.0.0",
+  "pydantic-settings>=2.0.0",
+  "pypdf>=4.0.0",
+  "python-docx>=1.0.0",
+  "Pillow>=10.0.0",
+  "python-dotenv>=1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0.0",
+  "pytest-asyncio>=0.23.0",
+  "pytest-cov>=5.0.0",
+  "ruff>=0.4.0",
+  "mypy>=1.10.0",
+  "types-Pillow",
+]
+
+[project.scripts]
+claims-run = "app_classify_extract_claim.run:main"
+
+# ── Package discovery ─────────────────────────────────────────────────────────
+# The git repo root IS the package directory; parent dir is the source root.
+# Install with:  pip install -e ..   (from within this directory)
+#             or pip install -e /path/to/parent
+[tool.setuptools.packages.find]
+where = [".."]
+include = ["app_classify_extract_claim*"]
+
+# ── pytest ────────────────────────────────────────────────────────────────────
+[tool.pytest.ini_options]
+asyncio_mode        = "auto"
+testpaths           = ["tests"]
+pythonpath          = [".."]          # makes `import app_classify_extract_claim` work
+python_files        = ["test_*.py"]
+python_classes      = ["Test*"]
+python_functions    = ["test_*"]
+log_cli             = true
+log_cli_level       = "WARNING"
+filterwarnings      = [
+  "ignore::DeprecationWarning",
+  "ignore::PendingDeprecationWarning",
+]
+addopts             = "--tb=short -q"
+
+# ── Coverage ──────────────────────────────────────────────────────────────────
+[tool.coverage.run]
+source   = ["app_classify_extract_claim"]
+omit     = ["*/tests/*", "*/__pycache__/*", "*/data/*"]
+branch   = true
+
+[tool.coverage.report]
+show_missing  = true
+skip_covered  = false
+fail_under    = 60
+
+# ── Ruff (linting + formatting — replaces flake8, isort, pyupgrade, bandit) ──
+[tool.ruff]
+target-version = "py311"
+line-length    = 100
+src            = [".", ".."]
+extend-exclude = ["data", "__pycache__", ".venv", "build", "dist"]
+
+[tool.ruff.lint]
+select = [
+  "E",    # pycodestyle errors
+  "W",    # pycodestyle warnings
+  "F",    # pyflakes
+  "I",    # isort
+  "UP",   # pyupgrade
+  "B",    # flake8-bugbear
+  "C4",   # flake8-comprehensions
+  "SIM",  # flake8-simplify
+  "TCH",  # flake8-type-checking
+  "ANN",  # flake8-annotations (partial)
+  "PTH",  # flake8-use-pathlib
+  "RUF",  # ruff-specific rules
+]
+ignore = [
+  "ANN101", # missing type annotation for `self`
+  "ANN102", # missing type annotation for `cls`
+  "ANN401", # Dynamically typed expressions (Any) — needed for mock helpers
+  "B008",   # do not perform function calls in default arguments (Pydantic Field OK)
+  "E501",   # line too long — handled by formatter
+  "RUF012", # Mutable class attributes should be annotated — false positive on Pydantic
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["app_classify_extract_claim"]
+force-sort-within-sections = true
+
+[tool.ruff.format]
+quote-style             = "double"
+indent-style            = "space"
+skip-magic-trailing-comma = false
+line-ending             = "auto"
+
+# ── mypy ─────────────────────────────────────────────────────────────────────
+[tool.mypy]
+python_version         = "3.11"
+strict                 = false
+warn_return_any        = true
+warn_unused_configs    = true
+warn_unused_ignores    = true
+warn_redundant_casts   = true
+disallow_untyped_defs  = true
+disallow_incomplete_defs = true
+check_untyped_defs     = true
+no_implicit_optional   = true
+show_error_codes       = true
+pretty                 = true
+# Third-party stubs
+ignore_missing_imports = true         # vertexai / langgraph stubs not always available
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+disallow_untyped_defs = false         # relax for test helpers

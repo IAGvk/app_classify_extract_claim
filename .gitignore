@@ -1,0 +1,85 @@
+# ── Python ────────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.pyd
+
+# Distribution / packaging
+*.egg
+*.egg-info/
+dist/
+build/
+wheels/
+.eggs/
+MANIFEST
+.installed.cfg
+
+# Virtual environments
+.venv/
+venv/
+env/
+ENV/
+.env.local
+.env.*.local
+
+# ── Secrets and credentials ───────────────────────────────────────────────────
+# Never commit real environment files
+.env
+!.env.example
+*.pem
+*.key
+*.p12
+*.json.bak
+service_account*.json
+gcp_credentials*.json
+application_default_credentials.json
+
+# ── Test artefacts ────────────────────────────────────────────────────────────
+.pytest_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.cover
+.hypothesis/
+reports/
+
+# ── Pipeline output (runtime-generated JSONL) ─────────────────────────────────
+data/lodged_claims.jsonl
+data/exceptions_queue.jsonl
+
+# ── Type-checker and linter caches ───────────────────────────────────────────
+.mypy_cache/
+.ruff_cache/
+.pytype/
+pyrightconfig.json
+
+# ── IDEs and editors ──────────────────────────────────────────────────────────
+.vscode/settings.json
+.vscode/launch.json
+.idea/
+*.swp
+*.swo
+*~
+.project
+.classpath
+
+# ── macOS ─────────────────────────────────────────────────────────────────────
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# ── Logs ──────────────────────────────────────────────────────────────────────
+*.log
+logs/
+
+# ── Jupyter ───────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
+*.ipynb
+
+# ── Docker ────────────────────────────────────────────────────────────────────
+.dockerignore
+docker-compose.override.yml

@@ -1,0 +1,100 @@
+[MASTER]
+# Use multiple processes (0 = auto-detect CPU count)
+jobs=0
+
+# Pickle collected data for later comparisons
+persistent=yes
+
+# Minimum Python version for checkers
+py-version=3.11
+
+# Add these paths to sys.path so imports resolve correctly
+init-hook=
+    import sys, os
+    sys.path.insert(0, os.path.abspath('..'))
+
+# File patterns to skip
+ignore=CVS,.git,.venv,__pycache__,data,build,dist
+
+ignore-patterns=
+    test_.*\.py$
+
+[MESSAGES CONTROL]
+# Disable noisy / low-value messages
+disable=
+    C0114,  # missing-module-docstring  (all modules have docstrings already)
+    C0115,  # missing-class-docstring
+    C0116,  # missing-function-docstring
+    R0903,  # too-few-public-methods (Pydantic models)
+    R0801,  # duplicate-code (prompt templates have intentional similarity)
+    W0511,  # fixme / todo markers are intentional
+    E1101,  # generated-members (Pydantic v2 __fields__ etc.)
+    W0212,  # protected-access (acceptable in tests)
+    C0301,  # line-too-long (delegated to ruff formatter)
+
+[FORMAT]
+max-line-length=100
+indent-string='    '
+indent-after-paren=4
+
+# Restrict the number of characters on a line for comments and docstrings
+max-doc-length=120
+
+[DESIGN]
+# Reasonable limits for a production pipeline
+max-args=10
+max-attributes=12
+max-bool-expr=6
+max-branches=15
+max-locals=20
+max-returns=8
+max-statements=60
+max-parents=7
+min-public-methods=0    # Pydantic models / dataclasses
+
+[TYPECHECK]
+# Modules whose members are set dynamically (mypy handles real type checking)
+ignored-modules=
+    pydantic,
+    pydantic_settings,
+    langgraph,
+    langchain_core,
+    langchain_google_vertexai,
+    google.cloud.aiplatform
+
+# Decorators that produce callable objects
+ignored-classes=
+    pydantic.BaseModel,
+    pydantic_settings.BaseSettings,
+    TypedDict
+
+[IMPORTS]
+known-third-party=
+    pydantic,
+    pydantic_settings,
+    langgraph,
+    langchain_core,
+    langchain_google_vertexai,
+    google,
+    pypdf,
+    docx,
+    PIL
+
+[LOGGING]
+logging-format-style=new
+logging-modules=logging
+
+[SIMILARITIES]
+# Minimum number of lines of identical code to trigger duplicate-code
+min-similarity-lines=8
+ignore-imports=yes
+ignore-docstrings=yes
+ignore-comments=yes
+
+[VARIABLES]
+# Acceptable single-letter variable names
+good-names=i,j,k,n,e,f,v,T,_
+
+[REPORTS]
+output-format=colorized
+score=yes
