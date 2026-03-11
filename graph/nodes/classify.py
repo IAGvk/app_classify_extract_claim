@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from app_classify_extract_claim.config.settings import get_settings
 
@@ -45,7 +45,7 @@ async def classify(state: GraphState) -> dict:
     """
     settings = get_settings()
     body: str = state.get("email_body", "") or ""
-    raw_files: list[dict] = state.get("raw_files", []) or []
+    raw_files: list[dict[str, Any]] = state.get("raw_files", []) or []
     client = llm_module.LLMClient.from_settings(settings)
 
     attachment_parts, attachment_names = files_to_langchain_parts(raw_files)

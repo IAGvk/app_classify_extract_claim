@@ -141,7 +141,7 @@ def _parse_eml(path: Path) -> ParsedEmail:
                     body_parts.append(text.strip())
             except Exception:
                 payload = part.get_payload(decode=True)
-                if payload:
+                if isinstance(payload, bytes) and payload:
                     body_parts.append(payload.decode("utf-8", errors="replace").strip())
         elif content_type == "text/html" and not body_parts:
             # Fallback: strip tags from HTML body if no plain-text part
@@ -261,7 +261,7 @@ def _process_attachment(raw_bytes: bytes, filename: str, mime_type: str) -> Pars
 
 def _extract_pdf_text(raw_bytes: bytes, filename: str) -> str | None:
     try:
-        import pypdf  # type: ignore
+        import pypdf
 
         reader = pypdf.PdfReader(io.BytesIO(raw_bytes))
         pages = []
@@ -284,7 +284,7 @@ def _extract_pdf_text(raw_bytes: bytes, filename: str) -> str | None:
 
 def _extract_docx_text(raw_bytes: bytes, filename: str) -> str | None:
     try:
-        import docx  # type: ignore
+        import docx
 
         doc = docx.Document(io.BytesIO(raw_bytes))
         paragraphs = [p.text for p in doc.paragraphs if p.text.strip()]
@@ -316,8 +316,8 @@ def _strip_html(html: str) -> str:
 
 
 def files_to_langchain_parts(
-    parsed_files: list[ParsedFile],
-) -> tuple[list[dict], list[str]]:
+    parsed_files: list[dict[str, Any]],
+) -> tuple[list[dict[str, Any]], list[str]]:
     """Convert ParsedFile list into LangChain multimodal content blocks.
 
     Returns:

@@ -16,7 +16,7 @@ All claims:
 from __future__ import annotations
 
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from app_classify_extract_claim.graph.state import GraphState
@@ -49,7 +49,7 @@ async def check_fields(state: GraphState) -> dict:
     Updates:
         fields_complete, missing_fields
     """
-    enriched: dict | None = state.get("enriched_claim") or {}
+    enriched: dict[str, Any] = state.get("enriched_claim") or {}
     insurance_type: str = state.get("insurance_type", "undetermined") or "undetermined"
     missing: list[str] = []
 

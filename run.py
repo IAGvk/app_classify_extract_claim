@@ -14,6 +14,7 @@ import asyncio
 import json
 from pathlib import Path
 import sys
+from typing import Any, cast
 
 
 def _parse_args() -> argparse.Namespace:
@@ -35,14 +36,14 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-async def _run(input_path: Path) -> dict:
+async def _run(input_path: Path) -> Any:
     from app_classify_extract_claim.graph.builder import get_graph
     from app_classify_extract_claim.graph.state import initial_state
     from app_classify_extract_claim.services.file_parser import parse_input
 
     parsed = parse_input(str(input_path))
     email_body = parsed.get("body", "")
-    raw_files = parsed.get("attachments", [])
+    raw_files = cast("list[dict[str, Any]]", parsed.get("attachments", []))
     email_id = input_path.stem
 
     state = initial_state(
@@ -71,9 +72,9 @@ def main() -> None:
     result = asyncio.run(_run(args.input))
 
     # Serialise — replace non-serialisable objects with their string repr
-    def _default(obj: object) -> dict | str:
+    def _default(obj: Any) -> dict[str, Any] | str:
         try:
-            return obj.model_dump()
+            return cast("dict[str, Any]", obj.model_dump())
         except AttributeError:
             return str(obj)
 

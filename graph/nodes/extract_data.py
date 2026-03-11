@@ -16,7 +16,7 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from app_classify_extract_claim.config.settings import get_settings
 
@@ -41,7 +41,7 @@ _FORM_MIMES = {
 }
 
 
-def _has_form_attachments(raw_files: list[dict]) -> bool:
+def _has_form_attachments(raw_files: list[dict[str, Any]]) -> bool:
     return any(f.get("mime_type", "") in _FORM_MIMES for f in raw_files)
 
 
@@ -53,7 +53,7 @@ async def extract_data(state: GraphState) -> dict:
     """
     settings = get_settings()
     body: str = state.get("email_body", "") or ""
-    raw_files: list[dict] = state.get("raw_files", []) or []
+    raw_files: list[dict[str, Any]] = state.get("raw_files", []) or []
     email_type: str = state.get("email_type", "freetext") or "freetext"
     client = llm_module.LLMClient.from_settings(settings)
 

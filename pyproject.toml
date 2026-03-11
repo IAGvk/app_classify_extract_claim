@@ -147,5 +147,6 @@ pretty                 = true
 ignore_missing_imports = true         # vertexai / langgraph stubs not always available
 
 [[tool.mypy.overrides]]
-module = ["tests.*"]
-disallow_untyped_defs = false         # relax for test helpers
+module = ["tests", "tests.*", "tests.*.*"]
+disallow_untyped_defs     = false         # relax for test helpers
+disallow_incomplete_defs  = false

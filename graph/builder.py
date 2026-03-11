@@ -18,6 +18,7 @@ Node execution order (happy path):
 from __future__ import annotations
 
 import logging
+from typing import Any
 
 from langgraph.graph import END, START, StateGraph
 
@@ -77,7 +78,7 @@ def _after_lodge(state: GraphState) -> str:
 # ── Graph factory ─────────────────────────────────────────────────────────────
 
 
-def build_graph() -> StateGraph:
+def build_graph() -> Any:
     """Construct and compile the LangGraph pipeline.
 
     Returns:
@@ -139,7 +140,7 @@ def build_graph() -> StateGraph:
 _graph = None
 
 
-def get_graph() -> StateGraph:
+def get_graph() -> Any:
     global _graph
     if _graph is None:
         _graph = build_graph()

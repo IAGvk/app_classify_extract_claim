@@ -211,9 +211,9 @@ def mock_settings(tmp_path):
         GCP_LOCATION_ID="us-central1",
         GCP_GEMINI_MODEL="gemini-1.5-pro-002",
         MOCK_LLM=True,
-        LODGED_CLAIMS_PATH=str(tmp_path / "lodged_claims.jsonl"),
-        EXCEPTIONS_PATH=str(tmp_path / "exceptions_queue.jsonl"),
-        VULNERABILITY_PHRASES_PATH=str(phrases_path),
-        MOCK_POLICIES_PATH=str(policies_path),
+        LODGED_CLAIMS_PATH=tmp_path / "lodged_claims.jsonl",
+        EXCEPTIONS_PATH=tmp_path / "exceptions_queue.jsonl",
+        VULNERABILITY_PHRASES_PATH=phrases_path,
+        MOCK_POLICIES_PATH=policies_path,
     )
     return settings

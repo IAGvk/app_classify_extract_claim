@@ -10,7 +10,7 @@ import json
 import logging
 import os
 from pathlib import Path
-from typing import Any, Literal, TypeVar, get_args, get_origin
+from typing import Any, Literal, TypeVar, cast, get_args, get_origin
 
 from pydantic import BaseModel
 
@@ -27,7 +27,7 @@ def _load_fixture(path: str) -> dict[str, Any]:
     with fixture_path.open() as fh:
         data = json.load(fh)
     logger.info("MOCK: loaded fixture with %d schema(s) from %s", len(data), fixture_path)
-    return data
+    return cast("dict[str, Any]", data)
 
 
 class LLMClient:
@@ -57,7 +57,7 @@ class LLMClient:
             return cls(llm=None, mock=True, fixture=fixture)
 
         try:
-            from langchain_google_vertexai import ChatVertexAI  # type: ignore
+            from langchain_google_vertexai import ChatVertexAI
         except ImportError as exc:
             raise ImportError(
                 "langchain-google-vertexai is not installed. "
@@ -112,10 +112,10 @@ class LLMClient:
         response = await structured.ainvoke(
             [
                 SystemMessage(system_prompt),
-                HumanMessage(content=human_content),
+                HumanMessage(content=cast("list[str | dict[Any, Any]]", human_content)),
             ]
         )
-        return response
+        return cast("T", response)
 
     async def ainvoke_text(
         self,
