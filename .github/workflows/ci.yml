@@ -6,6 +6,13 @@ on:
   pull_request:
     branches: [main, develop]
 
+# Prevent concurrent Pages deployments — cancel any in-progress run for the
+# same branch so only the latest push ever deploys docs.
+# Non-Pages jobs (quality, test) are not cancelled (cancel-in-progress: false).
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   quality:
     name: Lint & type-check
