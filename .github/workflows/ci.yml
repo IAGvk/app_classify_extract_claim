@@ -74,3 +74,40 @@ jobs:
         with:
           name: coverage-report
           path: coverage.xml
+
+  docs:
+    name: Build & deploy docs
+    runs-on: ubuntu-latest
+    needs: test
+    # Deploy only on push to main (not on PRs — avoids publishing draft docs)
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    permissions:
+      contents: write   # required for gh-pages branch push
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history needed for git-revision-date plugin
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install docs dependencies
+        run: |
+          pip install --upgrade pip
+          pip install -r app_classify_extract_claim/requirements-docs.txt
+          # Also install the project so mkdocstrings can import it
+          pip install -r app_classify_extract_claim/requirements.txt
+
+      - name: Configure git for gh-pages push
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Build and deploy docs to GitHub Pages
+        working-directory: app_classify_extract_claim
+        env:
+          PYTHONPATH: ".."
+        run: mkdocs gh-deploy --force --clean

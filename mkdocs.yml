@@ -1,0 +1,132 @@
+site_name: Claims Processing Pipeline
+site_description: End-to-end agentic AI claims processing for GIO & AMI — technical and business documentation.
+site_url: https://iagvk.github.io/lg_practice/
+repo_url: https://github.com/IAGvk/lg_practice
+repo_name: IAGvk/lg_practice
+edit_uri: edit/main/app_classify_extract_claim/docs/
+
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+  palette:
+    - scheme: default
+      primary: blue
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.path
+    - navigation.top
+    - navigation.indexes
+    - search.highlight
+    - search.suggest
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.tabs.link
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+      title: On this page
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [".."]
+          options:
+            docstring_style: google
+            show_source: true
+            show_root_heading: true
+            show_root_full_path: false
+            members_order: source
+            separate_signature: true
+            show_signature_annotations: true
+            show_if_no_docstring: false
+            filters:
+              - "!^_"
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/IAGvk/lg_practice
+
+nav:
+  - Home: index.md
+
+  - "👨‍💻 Developer Docs":
+    - developer/index.md
+    - Architecture:
+      - High-Level Design: developer/architecture/hld.md
+      - Low-Level Design: developer/architecture/lld.md
+      - Data Flow & State: developer/architecture/data_flow.md
+      - Architecture Decisions (ADRs): developer/architecture/decisions.md
+    - Pipeline Nodes:
+      - Node Catalogue: developer/nodes/index.md
+      - vulnerability_check: developer/nodes/vulnerability_check.md
+      - classify_email: developer/nodes/classify_email.md
+      - classify: developer/nodes/classify.md
+      - extract_data: developer/nodes/extract_data.md
+      - verify: developer/nodes/verify.md
+      - policy_retrieval: developer/nodes/policy_retrieval.md
+      - enrich: developer/nodes/enrich.md
+      - check_fields: developer/nodes/check_fields.md
+      - lodge: developer/nodes/lodge.md
+      - exception_handler: developer/nodes/exception_handler.md
+    - Services:
+      - LLM Client: developer/services/llm_client.md
+      - Vulnerability Scanner: developer/services/vulnerability_scanner.md
+    - Reference:
+      - Data Schemas: developer/schemas.md
+      - Configuration & Env Vars: developer/config.md
+      - Testing Guide: developer/testing.md
+
+  - "📊 Business Docs":
+    - business/index.md
+    - What the System Does: business/what_it_does.md
+    - The Claim Journey: business/claim_journey.md
+    - Outcomes Explained: business/outcomes.md
+    - Protecting Vulnerable Customers: business/vulnerability.md
+    - Policy Matching: business/policies.md

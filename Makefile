@@ -8,6 +8,9 @@
 #   make test           Run test suite (MOCK_LLM=true, no GCP calls)
 #   make test-cov       Run tests with coverage report
 #   make run INPUT=...  Run the pipeline on a file
+#   make docs           Serve docs locally (http://127.0.0.1:8000)
+#   make docs-build     Build static docs site to ./site/
+#   make docs-deploy    Deploy docs to GitHub Pages
 #   make clean          Remove build artefacts and caches
 #   make all            lint + typecheck + test
 #
@@ -42,6 +45,9 @@ help:
 	@echo "  make test-cov         Unit tests with HTML coverage report"
 	@echo "  make run              Run pipeline on INPUT with FIXTURE"
 	@echo "  make run-plain        Run pipeline on INPUT (blank mock LLM)"
+	@echo "  make docs             Serve docs locally (http://127.0.0.1:8000)"
+	@echo "  make docs-build       Build static docs site to ./site/"
+	@echo "  make docs-deploy      Deploy docs to GitHub Pages"
 	@echo "  make clean            Remove caches and build artefacts"
 	@echo "  make all              lint + typecheck + test"
 	@echo ""
@@ -61,6 +67,10 @@ install:
 install-dev: install
 	$(PIP) install ruff mypy types-Pillow pre-commit
 	pre-commit install
+
+.PHONY: install-docs
+install-docs:
+	$(PIP) install -r requirements-docs.txt
 
 # ── Lint & format ─────────────────────────────────────────────────────────────
 .PHONY: lint
@@ -124,6 +134,19 @@ run-plain:
 	PYTHONPATH=$(PARENT_DIR) \
 	    $(PYTHON) run.py --input $(INPUT) --pretty
 
+# ── Documentation ────────────────────────────────────────────────────────────
+.PHONY: docs
+docs:
+	mkdocs serve
+
+.PHONY: docs-build
+docs-build:
+	mkdocs build --strict
+
+.PHONY: docs-deploy
+docs-deploy:
+	mkdocs gh-deploy --force
+
 # ── Clean ─────────────────────────────────────────────────────────────────────
 .PHONY: clean
 clean:
@@ -131,7 +154,7 @@ clean:
 	find . -type f -name '*.pyc'       -delete 2>/dev/null || true
 	find . -type f -name '*.pyo'       -delete 2>/dev/null || true
 	rm -rf .pytest_cache .mypy_cache .ruff_cache htmlcov .coverage coverage.xml
-	rm -rf build dist *.egg-info
+	rm -rf build dist *.egg-info site
 
 # ── All ───────────────────────────────────────────────────────────────────────
 .PHONY: all
