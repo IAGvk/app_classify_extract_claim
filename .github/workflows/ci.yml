@@ -23,17 +23,24 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install ruff mypy types-Pillow
-          pip install -r app_classify_extract_claim/requirements.txt
+          pip install -r requirements.txt
+
+      # The git repo is checked out as 'lg_practice/' but the package is
+      # 'app_classify_extract_claim'. Create a symlink so mypy can resolve imports.
+      - name: Make package importable
+        run: ln -s "$GITHUB_WORKSPACE" "$(dirname "$GITHUB_WORKSPACE")/app_classify_extract_claim"
 
       - name: Ruff lint
-        run: ruff check app_classify_extract_claim
+        run: ruff check .
 
       - name: Ruff format check
-        run: ruff format --check app_classify_extract_claim
+        run: ruff format --check .
 
       - name: Mypy type check
+        env:
+          PYTHONPATH: "${{ github.workspace }}/.."
         run: |
-          PYTHONPATH=. mypy app_classify_extract_claim \
+          mypy . \
             --exclude 'tests/' \
             --exclude 'data/'
 
@@ -44,7 +51,9 @@ jobs:
     env:
       MOCK_LLM: "true"
       GCP_PROJECT_ID: "ci-test-project"
-      PYTHONPATH: "."
+      # pyproject.toml sets pythonpath=[".."]; combined with the symlink below
+      # that resolves to a directory containing app_classify_extract_claim/
+      PYTHONPATH: "${{ github.workspace }}/.."
     steps:
       - uses: actions/checkout@v4
 
@@ -54,16 +63,20 @@ jobs:
           python-version: "3.11"
           cache: pip
 
+      # Repo is checked out as 'lg_practice/' but package is 'app_classify_extract_claim'.
+      - name: Make package importable
+        run: ln -s "$GITHUB_WORKSPACE" "$(dirname "$GITHUB_WORKSPACE")/app_classify_extract_claim"
+
       - name: Install all dependencies
         run: |
           pip install --upgrade pip
-          pip install -r app_classify_extract_claim/requirements.txt
-          pip install -r app_classify_extract_claim/requirements-dev.txt
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
       - name: Run tests with coverage
         run: |
-          pytest app_classify_extract_claim/tests \
-            --cov=app_classify_extract_claim \
+          pytest tests \
+            --cov=. \
             --cov-report=xml \
             --cov-report=term-missing \
             -v
@@ -101,19 +114,23 @@ jobs:
       - name: Install docs dependencies
         run: |
           pip install --upgrade pip
-          pip install -r app_classify_extract_claim/requirements-docs.txt
-          pip install -r app_classify_extract_claim/requirements.txt
+          pip install -r requirements-docs.txt
+          pip install -r requirements.txt
+
+      # Repo is checked out as 'lg_practice/' but mkdocstrings needs to import
+      # 'app_classify_extract_claim'. Create a symlink in the parent directory.
+      - name: Make package importable
+        run: ln -s "$GITHUB_WORKSPACE" "$(dirname "$GITHUB_WORKSPACE")/app_classify_extract_claim"
 
       - name: Build docs
-        working-directory: app_classify_extract_claim
         env:
-          PYTHONPATH: ".."
+          PYTHONPATH: "${{ github.workspace }}/.."
         run: mkdocs build --strict
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: app_classify_extract_claim/site
+          path: site
 
       - name: Deploy to GitHub Pages
         id: deployment
