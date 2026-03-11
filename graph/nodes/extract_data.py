@@ -15,9 +15,12 @@ from __future__ import annotations
 
 import json
 import logging
+from typing import TYPE_CHECKING
 
 from app_classify_extract_claim.config.settings import get_settings
-from app_classify_extract_claim.graph.state import GraphState
+
+if TYPE_CHECKING:
+    from app_classify_extract_claim.graph.state import GraphState
 from app_classify_extract_claim.prompts.extraction_prompts import (
     get_form_enrichment_prompt,
     get_form_stage1_prompt,

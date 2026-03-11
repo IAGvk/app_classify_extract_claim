@@ -64,5 +64,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-[Unreleased]: https://github.com/IAGvk/lg_practice/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/IAGvk/lg_practice/releases/tag/v1.0.0
+[Unreleased]: https://github.com/IAGvk/app_classify_extract_claim/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/IAGvk/app_classify_extract_claim/releases/tag/v1.0.0

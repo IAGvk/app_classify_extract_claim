@@ -7,8 +7,10 @@ from __future__ import annotations
 
 import copy
 import logging
+from typing import TYPE_CHECKING
 
-from app_classify_extract_claim.graph.state import GraphState
+if TYPE_CHECKING:
+    from app_classify_extract_claim.graph.state import GraphState
 
 logger = logging.getLogger(__name__)
 
@@ -51,7 +53,7 @@ def _deep_merge(extracted: dict, policy: dict) -> dict:
     return result
 
 
-def _fill(target: dict, key: str, value, log: list) -> None:
+def _fill(target: dict, key: str, value: object, log: list) -> None:
     """Fill target[key] with value only if target[key] is null/empty."""
     if value is not None and value != "" and not target.get(key):
         target[key] = value

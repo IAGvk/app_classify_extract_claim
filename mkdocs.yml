@@ -1,9 +1,9 @@
 site_name: Claims Processing Pipeline
 site_description: End-to-end agentic AI claims processing for GIO & AMI — technical and business documentation.
-site_url: https://iagvk.github.io/lg_practice/
-repo_url: https://github.com/IAGvk/lg_practice
-repo_name: IAGvk/lg_practice
-edit_uri: edit/main/app_classify_extract_claim/docs/
+site_url: https://iagvk.github.io/app_classify_extract_claim/
+repo_url: https://github.com/IAGvk/app_classify_extract_claim
+repo_name: IAGvk/app_classify_extract_claim
+edit_uri: edit/main/docs/
 
 docs_dir: docs
 site_dir: site

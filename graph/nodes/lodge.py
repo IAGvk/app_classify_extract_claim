@@ -7,14 +7,18 @@ v2.x: replace _mock_lodge with real Claims Management System API call.
 """
 from __future__ import annotations
 
+from datetime import UTC, datetime
 import json
 import logging
+from typing import TYPE_CHECKING
 import uuid
-from datetime import datetime, timezone
-from pathlib import Path
 
 from app_classify_extract_claim.config.settings import get_settings
-from app_classify_extract_claim.graph.state import GraphState
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from app_classify_extract_claim.graph.state import GraphState
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +47,7 @@ async def lodge(state: GraphState) -> dict:
 
     try:
         reference = _generate_reference()
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
 
         lodge_record = {
             "claim_reference": reference,

@@ -11,9 +11,12 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from typing import TYPE_CHECKING
 
 from app_classify_extract_claim.config.settings import get_settings
-from app_classify_extract_claim.graph.state import GraphState
+
+if TYPE_CHECKING:
+    from app_classify_extract_claim.graph.state import GraphState
 from app_classify_extract_claim.prompts.classify_prompts import (
     get_claim_status_system_prompt,
     get_insurance_type_form_system_prompt,
@@ -21,8 +24,8 @@ from app_classify_extract_claim.prompts.classify_prompts import (
     get_multi_claim_system_prompt,
 )
 from app_classify_extract_claim.schemas.claim_data import (
-    ClaimStatusResponse,
     ClaimsGroupingResponse,
+    ClaimStatusResponse,
     InsuranceTypeResponse,
 )
 from app_classify_extract_claim.services import llm_client as llm_module

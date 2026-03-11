@@ -17,10 +17,10 @@ async def test_exception_handler_writes_to_jsonl(motor_state, mock_settings, tmp
     motor_state["error_node"] = "classify"
 
     with patch("app_classify_extract_claim.graph.nodes.exception_handler.get_settings", return_value=mock_settings):
-        result = await exception_handler(motor_state)
+        await exception_handler(motor_state)
 
     assert exc_path.exists()
-    records = [json.loads(l) for l in exc_path.read_text().splitlines()]
+    records = [json.loads(line) for line in exc_path.read_text().splitlines()]
     assert len(records) == 1
 
 
@@ -32,9 +32,9 @@ async def test_exception_handler_captures_error_reason(motor_state, mock_setting
     motor_state["error_node"] = "verify"
 
     with patch("app_classify_extract_claim.graph.nodes.exception_handler.get_settings", return_value=mock_settings):
-        result = await exception_handler(motor_state)
+        await exception_handler(motor_state)
 
-    records = [json.loads(l) for l in exc_path.read_text().splitlines()]
+    records = [json.loads(line) for line in exc_path.read_text().splitlines()]
     assert records[0]["error_reason"] == "field validation failed"
     assert records[0]["error_node"] == "verify"
 
@@ -47,9 +47,9 @@ async def test_exception_handler_existing_claim_reason(motor_state, mock_setting
     motor_state["error_node"] = "classify"
 
     with patch("app_classify_extract_claim.graph.nodes.exception_handler.get_settings", return_value=mock_settings):
-        result = await exception_handler(motor_state)
+        await exception_handler(motor_state)
 
-    records = [json.loads(l) for l in exc_path.read_text().splitlines()]
+    records = [json.loads(line) for line in exc_path.read_text().splitlines()]
     assert records[0]["error_reason"] == "existing claim"
 
 
@@ -61,9 +61,9 @@ async def test_exception_handler_exception_id_format(motor_state, mock_settings,
     motor_state["error_node"] = "check_fields"
 
     with patch("app_classify_extract_claim.graph.nodes.exception_handler.get_settings", return_value=mock_settings):
-        result = await exception_handler(motor_state)
+        await exception_handler(motor_state)
 
-    records = [json.loads(l) for l in exc_path.read_text().splitlines()]
+    records = [json.loads(line) for line in exc_path.read_text().splitlines()]
     assert "exception_id" in records[0]
     assert records[0]["exception_id"].startswith("EXC-")
 

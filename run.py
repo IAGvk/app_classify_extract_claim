@@ -11,8 +11,8 @@ from __future__ import annotations
 import argparse
 import asyncio
 import json
-import sys
 from pathlib import Path
+import sys
 
 
 def _parse_args() -> argparse.Namespace:
@@ -70,7 +70,7 @@ def main() -> None:
     result = asyncio.run(_run(args.input))
 
     # Serialise — replace non-serialisable objects with their string repr
-    def _default(obj):
+    def _default(obj: object) -> dict | str:
         try:
             return obj.model_dump()
         except AttributeError:

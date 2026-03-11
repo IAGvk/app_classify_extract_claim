@@ -1,8 +1,6 @@
 """Tests for enrich node."""
 from __future__ import annotations
 
-import copy
-
 import pytest
 
 from app_classify_extract_claim.graph.nodes.enrich import enrich

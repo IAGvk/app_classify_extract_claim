@@ -46,7 +46,7 @@ class LLMClient:
     # ── Factory ───────────────────────────────────────────────────────────────
 
     @classmethod
-    def from_settings(cls, settings: Any) -> "LLMClient":
+    def from_settings(cls, settings: Any) -> LLMClient:
         if settings.mock_llm:
             logger.info("LLMClient: MOCK mode enabled — no GCP calls will be made")
             fixture: dict[str, Any] = {}
@@ -158,7 +158,7 @@ class LLMClient:
         logger.debug("MOCK: returning minimal %s", schema.__name__)
         logger.debug("MOCK: returning minimal %s", schema.__name__)
 
-        def _first_value(ann: Any) -> Any:  # noqa: ANN401
+        def _first_value(ann: Any) -> Any:
             """Return the first valid value for an annotation type."""
             origin = get_origin(ann)
             # Literal[...] — pick first choice

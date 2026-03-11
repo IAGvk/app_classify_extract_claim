@@ -103,12 +103,20 @@ select = [
   "RUF",  # ruff-specific rules
 ]
 ignore = [
-  "ANN101", # missing type annotation for `self`
-  "ANN102", # missing type annotation for `cls`
   "ANN401", # Dynamically typed expressions (Any) — needed for mock helpers
   "B008",   # do not perform function calls in default arguments (Pydantic Field OK)
   "E501",   # line too long — handled by formatter
   "RUF012", # Mutable class attributes should be annotated — false positive on Pydantic
+]
+
+[tool.ruff.lint.per-file-ignores]
+# Tests: relax annotation requirements and allow assert statements
+"tests/**/*.py" = [
+  "ANN",    # no type annotations required on test functions or fixtures
+  "S101",   # assert is expected in tests
+]
+"tests/conftest.py" = [
+  "ANN",    # fixture functions don't need annotations
 ]
 
 [tool.ruff.lint.isort]

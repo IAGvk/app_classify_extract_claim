@@ -14,13 +14,17 @@ Triggered by:
 """
 from __future__ import annotations
 
+from datetime import UTC, datetime
 import json
 import logging
-from datetime import datetime, timezone
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from app_classify_extract_claim.config.settings import get_settings
-from app_classify_extract_claim.graph.state import GraphState
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from app_classify_extract_claim.graph.state import GraphState
 
 logger = logging.getLogger(__name__)
 
@@ -38,7 +42,7 @@ async def exception_handler(state: GraphState) -> dict:
         exception_record, completed
     """
     settings = get_settings()
-    now = datetime.now(timezone.utc).isoformat()
+    now = datetime.now(UTC).isoformat()
 
     # Determine reason
     error_reason: str = state.get("error_reason") or "UNKNOWN"
@@ -48,7 +52,7 @@ async def exception_handler(state: GraphState) -> dict:
     verification_result: str = state.get("verification_result", "") or ""
     lodge_status: str = state.get("lodge_status", "") or ""
 
-    if claim_status == "existing_claim" and not error_reason or error_reason == "UNKNOWN":
+    if (claim_status == "existing_claim" and not error_reason) or error_reason == "UNKNOWN":
         error_reason = "Existing claim — routed to manual review queue"
         error_node = "classify"
     elif verification_result == "FAIL":
@@ -63,7 +67,7 @@ async def exception_handler(state: GraphState) -> dict:
         error_node = error_node or "lodge"
 
     exception_record = {
-        "exception_id": f"EXC-{datetime.now(timezone.utc).strftime('%Y%m%d%H%M%S')}",
+        "exception_id": f"EXC-{datetime.now(UTC).strftime('%Y%m%d%H%M%S')}",
         "timestamped_at": now,
         "email_id": state.get("email_id"),
         "error_reason": error_reason,

@@ -1,9 +1,7 @@
 """Shared pytest fixtures for the claims pipeline test suite."""
 from __future__ import annotations
 
-import json
 from pathlib import Path
-from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
@@ -70,9 +68,9 @@ Michael
 VULNERABLE_EMAIL = """
 Hi,
 
-I need to lodge a claim. I can't afford to fix my car out of pocket — 
+I need to lodge a claim. I can't afford to fix my car out of pocket —
 I'm really struggling financially since losing my job last month.
-I'm going through a really hard time and this accident has made 
+I'm going through a really hard time and this accident has made
 everything so much worse.
 
 My policy is GIO2468101, the accident was on 1 March 2025.

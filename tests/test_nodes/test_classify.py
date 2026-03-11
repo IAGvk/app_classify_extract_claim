@@ -8,8 +8,8 @@ import pytest
 from app_classify_extract_claim.graph.nodes.classify import classify
 from app_classify_extract_claim.schemas.claim_data import (
     ClaimContext,
-    ClaimStatusResponse,
     ClaimsGroupingResponse,
+    ClaimStatusResponse,
     InsuranceTypeResponse,
 )
 

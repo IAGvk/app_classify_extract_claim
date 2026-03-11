@@ -25,11 +25,6 @@ jobs:
           pip install ruff mypy types-Pillow
           pip install -r requirements.txt
 
-      # The git repo is checked out as 'lg_practice/' but the package is
-      # 'app_classify_extract_claim'. Create a symlink so mypy can resolve imports.
-      - name: Make package importable
-        run: ln -s "$GITHUB_WORKSPACE" "$(dirname "$GITHUB_WORKSPACE")/app_classify_extract_claim"
-
       - name: Ruff lint
         run: ruff check .
 
@@ -51,8 +46,8 @@ jobs:
     env:
       MOCK_LLM: "true"
       GCP_PROJECT_ID: "ci-test-project"
-      # pyproject.toml sets pythonpath=[".."]; combined with the symlink below
-      # that resolves to a directory containing app_classify_extract_claim/
+      # pyproject.toml sets pythonpath=[".."]; repo checks out as
+      # app_classify_extract_claim/ so PYTHONPATH=.. makes imports resolve.
       PYTHONPATH: "${{ github.workspace }}/.."
     steps:
       - uses: actions/checkout@v4
@@ -62,10 +57,6 @@ jobs:
         with:
           python-version: "3.11"
           cache: pip
-
-      # Repo is checked out as 'lg_practice/' but package is 'app_classify_extract_claim'.
-      - name: Make package importable
-        run: ln -s "$GITHUB_WORKSPACE" "$(dirname "$GITHUB_WORKSPACE")/app_classify_extract_claim"
 
       - name: Install all dependencies
         run: |
@@ -116,11 +107,6 @@ jobs:
           pip install --upgrade pip
           pip install -r requirements-docs.txt
           pip install -r requirements.txt
-
-      # Repo is checked out as 'lg_practice/' but mkdocstrings needs to import
-      # 'app_classify_extract_claim'. Create a symlink in the parent directory.
-      - name: Make package importable
-        run: ln -s "$GITHUB_WORKSPACE" "$(dirname "$GITHUB_WORKSPACE")/app_classify_extract_claim"
 
       - name: Build docs
         env:

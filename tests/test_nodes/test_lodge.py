@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 from unittest.mock import patch
 
 import pytest
@@ -52,7 +51,7 @@ async def test_lodge_sets_high_priority_for_vulnerable(motor_state, extracted_mo
     with patch("app_classify_extract_claim.graph.nodes.lodge.get_settings", return_value=mock_settings):
         await lodge(motor_state)
 
-    records = [json.loads(l) for l in (tmp_path / "lodged.jsonl").read_text().splitlines()]
+    records = [json.loads(line) for line in (tmp_path / "lodged.jsonl").read_text().splitlines()]
     assert records[0]["priority"] == "HIGH"
     assert records[0]["handler"] == "sensitive_claims_team"
 
@@ -66,7 +65,7 @@ async def test_lodge_normal_priority_for_non_vulnerable(motor_state, extracted_m
     with patch("app_classify_extract_claim.graph.nodes.lodge.get_settings", return_value=mock_settings):
         await lodge(motor_state)
 
-    records = [json.loads(l) for l in (tmp_path / "lodged.jsonl").read_text().splitlines()]
+    records = [json.loads(line) for line in (tmp_path / "lodged.jsonl").read_text().splitlines()]
     assert records[0]["priority"] == "NORMAL"
     assert records[0]["handler"] == "standard_queue"
 

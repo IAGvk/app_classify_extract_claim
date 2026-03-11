@@ -1,21 +1,12 @@
 """Integration tests for the full LangGraph pipeline."""
 from __future__ import annotations
 
-import os
-from unittest.mock import AsyncMock, MagicMock, patch
+from pathlib import Path
 
 import pytest
 
 from app_classify_extract_claim.graph.builder import build_graph
 from app_classify_extract_claim.graph.state import initial_state
-from app_classify_extract_claim.schemas.claim_data import (
-    ClaimStatusResponse,
-    ClaimsGroupingResponse,
-    ExtractedClaim,
-    InsuranceTypeResponse,
-    VulnerabilityConfirmResponse,
-)
-
 
 MOTOR_EMAIL_BODY = """
 Subject: New motor claim
@@ -42,11 +33,11 @@ def graph_env(tmp_path, monkeypatch):
     monkeypatch.setenv("EXCEPTIONS_PATH", str(tmp_path / "exceptions.jsonl"))
     monkeypatch.setenv(
         "VULNERABILITY_PHRASES_PATH",
-        str(os.path.join(os.path.dirname(__file__), "../../data/vulnera_phrases.csv")),
+        str(Path(__file__).parent / "../../data/vulnera_phrases.csv"),
     )
     monkeypatch.setenv(
         "MOCK_POLICIES_PATH",
-        str(os.path.join(os.path.dirname(__file__), "../../data/mock_policies.json")),
+        str(Path(__file__).parent / "../../data/mock_policies.json"),
     )
     return tmp_path
 

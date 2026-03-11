@@ -15,8 +15,10 @@ All claims:
 from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
 
-from app_classify_extract_claim.graph.state import GraphState
+if TYPE_CHECKING:
+    from app_classify_extract_claim.graph.state import GraphState
 
 logger = logging.getLogger(__name__)
 

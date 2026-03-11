@@ -7,9 +7,12 @@ from __future__ import annotations
 
 import logging
 import re
+from typing import TYPE_CHECKING
 
 from app_classify_extract_claim.config.settings import get_settings
-from app_classify_extract_claim.graph.state import GraphState
+
+if TYPE_CHECKING:
+    from app_classify_extract_claim.graph.state import GraphState
 from app_classify_extract_claim.prompts.classify_prompts import get_email_type_prompt
 from app_classify_extract_claim.schemas.claim_data import EmailTypeResponse
 from app_classify_extract_claim.services import llm_client as llm_module

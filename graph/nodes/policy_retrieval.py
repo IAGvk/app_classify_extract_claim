@@ -11,10 +11,14 @@ from __future__ import annotations
 import json
 import logging
 import re
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 from app_classify_extract_claim.config.settings import get_settings
-from app_classify_extract_claim.graph.state import GraphState
+
+if TYPE_CHECKING:
+    from pathlib import Path
+
+    from app_classify_extract_claim.graph.state import GraphState
 
 logger = logging.getLogger(__name__)
 

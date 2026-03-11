@@ -17,12 +17,15 @@ Result:
 """
 from __future__ import annotations
 
+from datetime import date, datetime
 import logging
 import re
-from datetime import date, datetime
+from typing import TYPE_CHECKING
 
-from app_classify_extract_claim.graph.state import GraphState
 from app_classify_extract_claim.schemas.claim_data import ExtractedClaim
+
+if TYPE_CHECKING:
+    from app_classify_extract_claim.graph.state import GraphState
 
 logger = logging.getLogger(__name__)
 
