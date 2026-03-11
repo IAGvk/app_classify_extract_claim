@@ -1,0 +1,115 @@
+{
+    "_comment": "Realistic mock LLM responses for webform_submission.txt — Aisha Malik / GIO-M-006 / hit-and-run with minor injury, webform path.",
+    "EmailTypeResponse": {
+        "email_type": "webform"
+    },
+    "InsuranceTypeResponse": {
+        "insurance_type": "motor"
+    },
+    "ClaimStatusResponse": {
+        "claim_type": "new_claim"
+    },
+    "ClaimsGroupingResponse": {
+        "claims": [
+            {
+                "description": "Motor vehicle rear-end collision at Flinders/Swanston St Melbourne VIC on 10/03/2026. Third party vehicle fled scene. Passenger reports minor neck discomfort. Police attended.",
+                "risk": "motor",
+                "unique_email_info": "Policy GIO-M-006 — Aisha Malik — Hyundai Tucson MNO321 — police report VIC-2026-209876 — third party unknown",
+                "attachments": []
+            }
+        ]
+    },
+    "VulnerabilityConfirmResponse": {
+        "confirmed": false,
+        "matched_phrases": [],
+        "severity_score": 0.0,
+        "notes": null
+    },
+    "ExtractedClaim": {
+        "insured_details": {
+            "policy_number": "GIO-M-006",
+            "insured_name": "Aisha Fatima Malik",
+            "insured_contact_name": {
+                "title": "Ms",
+                "first_name": "Aisha",
+                "middle_name": "Fatima",
+                "last_name": "Malik"
+            },
+            "insured_numbers": [
+                {
+                    "number": "0488 234 567",
+                    "type": "mobile"
+                }
+            ],
+            "insured_email": "aisha.malik@gmail.com",
+            "claim_tax_status": null,
+            "intend_to_claim_itc": null,
+            "abn": null
+        },
+        "vehicle_information": {
+            "vehicle_registration": "MNO321",
+            "vehicle_make": "Hyundai",
+            "vehicle_model": "Tucson",
+            "vehicle_year": 2023,
+            "vehicle_colour": "White",
+            "vehicle_type": "SUV"
+        },
+        "drivers_details": {
+            "driver_name": {
+                "title": "Ms",
+                "first_name": "Aisha",
+                "middle_name": "Fatima",
+                "last_name": "Malik"
+            },
+            "driver_date_of_birth": "1995-02-04",
+            "driver_age": 31,
+            "driver_licence_number": null,
+            "driver_licence_state": "VIC",
+            "same_as_insured": true
+        },
+        "incident_details": {
+            "date_of_loss": "2026-03-10",
+            "incident_description": "Insured entered intersection on a green light when a cyclist crossed against the red, causing insured to brake suddenly. Vehicle behind could not stop in time and rear-ended the insured vehicle. Minor damage to rear bumper and tow bar. Third party vehicle fled the scene — registration unknown. Passenger reports minor neck discomfort; no hospital visit.",
+            "incident_address_lines": [
+                "Flinders Street / Swanston Street intersection"
+            ],
+            "incident_suburb": "Melbourne",
+            "incident_postcode": "3000",
+            "incident_state": "VIC",
+            "vehicle_towed": "No",
+            "vehicle_damage_description": "Minor damage to rear bumper and tow bar from rear-end impact",
+            "police_report_number": "VIC-2026-209876"
+        },
+        "third_party_driver": {
+            "tp_driver_name": null,
+            "tp_contact_number": null,
+            "tp_address_lines": null,
+            "tp_suburb": null,
+            "tp_postcode": null,
+            "tp_state": null,
+            "tp_car_registration": null,
+            "tp_vehicle_make": null,
+            "tp_vehicle_model": null
+        },
+        "main_contact": {
+            "contact_name": {
+                "title": "Ms",
+                "first_name": "Aisha",
+                "middle_name": null,
+                "last_name": "Malik"
+            },
+            "phone_numbers": [
+                {
+                    "number": "0488 234 567",
+                    "type": "mobile"
+                }
+            ],
+            "email": "aisha.malik@gmail.com"
+        },
+        "claim_reporter": null,
+        "conflict_metadata": {}
+    },
+    "ConflictResolutionResponse": {
+        "resolutions": []
+    }
+}

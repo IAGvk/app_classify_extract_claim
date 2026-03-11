@@ -1,0 +1,57 @@
+--- GIO ONLINE CLAIMS FORM SUBMISSION ---
+Submission ID: WF-20260311-8812
+Submitted: 11/03/2026 09:47:02 AEDT
+
+SECTION 1: POLICY INFORMATION
+Policy Number: GIO-M-006
+Policy Type: Motor Vehicle - Comprehensive
+Policy Holder: Aisha Fatima Malik
+
+SECTION 2: INSURED DETAILS
+First Name: Aisha
+Last Name: Malik
+Date of Birth: 04/02/1995
+Phone: 0488 234 567
+Email: aisha.malik@gmail.com
+Address: 3/19 Flinders Street, Melbourne VIC 3000
+
+SECTION 3: VEHICLE DETAILS
+Make: Hyundai
+Model: Tucson
+Year: 2023
+Registration: MNO321
+VIN: KMHJ341AAGU123456
+Colour: White
+Annual Odometer: 18500 km
+
+SECTION 4: INCIDENT DETAILS
+Date of Incident: 10/03/2026
+Time: 05:45 PM
+Location: Flinders Street / Swanston Street intersection, Melbourne VIC
+Incident Type: Collision - Multi Vehicle
+Description: Entering the intersection on a green light when a cyclist crossed against the red and I braked suddenly. The vehicle behind me could not stop in time and rear-ended me. Minor damage to rear bumper and tow bar.
+
+SECTION 5: DRIVER AT TIME OF INCIDENT
+Same as insured: YES
+
+SECTION 6: THIRD PARTY DETAILS
+Third Party Name: Unknown (driver fled scene)
+Third Party Vehicle Reg: Unknown
+Third Party Insurer: Unknown
+
+SECTION 7: INJURIES
+Any injuries? YES
+Details: Passenger (spouse) reported minor neck discomfort. No hospital visit required.
+
+SECTION 8: POLICE REPORT
+Police attendance: YES
+Report lodged: YES
+Report Number: VIC-2026-209876
+Reporting Station: Melbourne CBD Police Station
+
+SECTION 9: DECLARATION
+I declare all information provided is true and correct.
+Signature: Aisha Fatima Malik
+Date: 11/03/2026
+
+--- END OF SUBMISSION ---

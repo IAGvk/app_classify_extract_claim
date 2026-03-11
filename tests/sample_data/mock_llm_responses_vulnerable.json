@@ -1,0 +1,122 @@
+{
+    "_comment": "Realistic mock LLM responses for vulnerable_customer.eml — motor claim with vulnerability flag HIGH, lodges to sensitive_claims_team.",
+    "EmailTypeResponse": {
+        "email_type": "freetext"
+    },
+    "InsuranceTypeResponse": {
+        "insurance_type": "motor"
+    },
+    "ClaimStatusResponse": {
+        "claim_type": "new_claim"
+    },
+    "ClaimsGroupingResponse": {
+        "claims": [
+            {
+                "description": "Motor vehicle collision — car ran red light hitting driver side. Vehicle written off. Insured hospitalised with whiplash and soft tissue injuries. Elderly pensioner with anxiety and depression.",
+                "risk": "motor",
+                "unique_email_info": "Policy GIO-M-002 — Helen Bradshaw — Parramatta Road Strathfield — carer contact 0400 111 222",
+                "attachments": []
+            }
+        ]
+    },
+    "VulnerabilityConfirmResponse": {
+        "confirmed": true,
+        "matched_phrases": [
+            "very distressed",
+            "struggling",
+            "significant anxiety and depression",
+            "feeling very overwhelmed",
+            "pensioner",
+            "financial hardship",
+            "taken to hospital by ambulance",
+            "hard to manage"
+        ],
+        "severity_score": 0.85,
+        "notes": "Elderly pensioner (DOB 03/05/1948) currently hospitalised with physical injuries and pre-existing anxiety/depression. Communication via carer. Requires phone contact and sensitive handling."
+    },
+    "ExtractedClaim": {
+        "insured_details": {
+            "policy_number": "GIO-M-002",
+            "insured_name": "Helen Rose Bradshaw",
+            "insured_contact_name": {
+                "title": "Ms",
+                "first_name": "Helen",
+                "middle_name": "Rose",
+                "last_name": "Bradshaw"
+            },
+            "insured_numbers": [
+                {
+                    "number": "0400 111 222",
+                    "type": "mobile"
+                }
+            ],
+            "insured_email": "helen.bradshaw@example.com",
+            "claim_tax_status": null,
+            "intend_to_claim_itc": null,
+            "abn": null
+        },
+        "vehicle_information": {
+            "vehicle_registration": "HB0001",
+            "vehicle_make": null,
+            "vehicle_model": null,
+            "vehicle_year": null,
+            "vehicle_colour": null,
+            "vehicle_type": null
+        },
+        "drivers_details": {
+            "driver_name": {
+                "title": "Ms",
+                "first_name": "Helen",
+                "middle_name": "Rose",
+                "last_name": "Bradshaw"
+            },
+            "driver_date_of_birth": "1948-05-03",
+            "driver_age": 77,
+            "driver_licence_number": null,
+            "driver_licence_state": "NSW",
+            "same_as_insured": true
+        },
+        "incident_details": {
+            "date_of_loss": "2026-03-06",
+            "incident_description": "A car ran a red light and struck the insured vehicle on the driver side at Parramatta Road, Strathfield NSW. Insured was taken to hospital by ambulance and has been diagnosed with whiplash and soft tissue injuries. Vehicle is a write-off.",
+            "incident_address_lines": [
+                "Parramatta Road"
+            ],
+            "incident_suburb": "Strathfield",
+            "incident_postcode": "2135",
+            "incident_state": "NSW",
+            "vehicle_towed": "Yes",
+            "vehicle_damage_description": "Driver-side impact — vehicle assessed as write-off",
+            "police_report_number": null
+        },
+        "third_party_driver": null,
+        "main_contact": {
+            "contact_name": {
+                "title": null,
+                "first_name": "Margaret",
+                "middle_name": null,
+                "last_name": null
+            },
+            "phone_numbers": [
+                {
+                    "number": "0400 111 222",
+                    "type": "mobile"
+                }
+            ],
+            "email": null
+        },
+        "claim_reporter": {
+            "reporter_name": {
+                "title": null,
+                "first_name": "Margaret",
+                "middle_name": null,
+                "last_name": null
+            },
+            "party_type": "Carer"
+        },
+        "conflict_metadata": {}
+    },
+    "ConflictResolutionResponse": {
+        "resolutions": []
+    }
+}

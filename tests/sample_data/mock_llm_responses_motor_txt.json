@@ -1,0 +1,105 @@
+{
+    "_comment": "Realistic mock LLM responses for motor_new_claim.txt — Priya Patel / GIO-M-005 / hail damage happy path.",
+    "EmailTypeResponse": {
+        "email_type": "freetext"
+    },
+    "InsuranceTypeResponse": {
+        "insurance_type": "motor"
+    },
+    "ClaimStatusResponse": {
+        "claim_type": "new_claim"
+    },
+    "ClaimsGroupingResponse": {
+        "claims": [
+            {
+                "description": "Motor vehicle hail damage — severe storm struck Penrith NSW on 08/03/2026, extensive denting to roof, bonnet, boot lid, and both front guards. Vehicle driveable.",
+                "risk": "motor",
+                "unique_email_info": "Policy GIO-M-005 — Priya Patel — VW Golf JKL789 — no third party",
+                "attachments": []
+            }
+        ]
+    },
+    "VulnerabilityConfirmResponse": {
+        "confirmed": false,
+        "matched_phrases": [],
+        "severity_score": 0.0,
+        "notes": null
+    },
+    "ExtractedClaim": {
+        "insured_details": {
+            "policy_number": "GIO-M-005",
+            "insured_name": "Priya Anita Patel",
+            "insured_contact_name": {
+                "title": "Ms",
+                "first_name": "Priya",
+                "middle_name": "Anita",
+                "last_name": "Patel"
+            },
+            "insured_numbers": [
+                {
+                    "number": "0477 345 678",
+                    "type": "mobile"
+                }
+            ],
+            "insured_email": "priya.patel@email.com.au",
+            "claim_tax_status": null,
+            "intend_to_claim_itc": null,
+            "abn": null
+        },
+        "vehicle_information": {
+            "vehicle_registration": "JKL789",
+            "vehicle_make": "Volkswagen",
+            "vehicle_model": "Golf",
+            "vehicle_year": 2020,
+            "vehicle_colour": "Midnight Blue",
+            "vehicle_type": "hatchback"
+        },
+        "drivers_details": {
+            "driver_name": {
+                "title": "Ms",
+                "first_name": "Priya",
+                "middle_name": "Anita",
+                "last_name": "Patel"
+            },
+            "driver_date_of_birth": "1990-04-30",
+            "driver_age": 35,
+            "driver_licence_number": null,
+            "driver_licence_state": "NSW",
+            "same_as_insured": true
+        },
+        "incident_details": {
+            "date_of_loss": "2026-03-08",
+            "incident_description": "A severe hail storm struck the Penrith area on the afternoon of 08/03/2026 while the insured vehicle was parked in the driveway (uncovered). Hail caused extensive denting to the roof, bonnet, boot lid, and both front guards. All windows intact. Vehicle is driveable.",
+            "incident_address_lines": [
+                "88 Jacaranda Drive"
+            ],
+            "incident_suburb": "Penrith",
+            "incident_postcode": "2750",
+            "incident_state": "NSW",
+            "vehicle_towed": "No",
+            "vehicle_damage_description": "Extensive hail denting to roof, bonnet, boot lid, and both front guards. Windows intact.",
+            "police_report_number": null
+        },
+        "third_party_driver": null,
+        "main_contact": {
+            "contact_name": {
+                "title": "Ms",
+                "first_name": "Priya",
+                "middle_name": null,
+                "last_name": "Patel"
+            },
+            "phone_numbers": [
+                {
+                    "number": "0477 345 678",
+                    "type": "mobile"
+                }
+            ],
+            "email": "priya.patel@email.com.au"
+        },
+        "claim_reporter": null,
+        "conflict_metadata": {}
+    },
+    "ConflictResolutionResponse": {
+        "resolutions": []
+    }
+}

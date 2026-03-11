@@ -1,0 +1,293 @@
+[
+    {
+        "policy_number": "GIO1234567",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "John Smith",
+            "email": "john.smith@example.com",
+            "phone": "0412345678",
+            "address": "12 Elm St, Sydney NSW 2000"
+        },
+        "vehicle": {
+            "registration": "ABC123",
+            "make": "Toyota",
+            "model": "Camry",
+            "year": 2021,
+            "colour": "White"
+        },
+        "inception_date": "2024-01-15",
+        "expiry_date": "2025-01-14",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "GIO9876543",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "Sarah Johnson",
+            "email": "sarah.j@example.com",
+            "phone": "0498765432",
+            "address": "45 Oak Ave, Melbourne VIC 3000"
+        },
+        "vehicle": {
+            "registration": "XYZ789",
+            "make": "Honda",
+            "model": "Civic",
+            "year": 2020,
+            "colour": "Blue"
+        },
+        "inception_date": "2024-03-01",
+        "expiry_date": "2025-02-28",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "AMI5550001",
+        "policy_type": "non-motor",
+        "status": "active",
+        "holder": {
+            "name": "Acme Property Pty Ltd",
+            "email": "claims@acmeproperty.com.au",
+            "phone": "0290001234",
+            "address": "100 Commercial Rd, Brisbane QLD 4000"
+        },
+        "vehicle": null,
+        "inception_date": "2024-06-01",
+        "expiry_date": "2025-05-31",
+        "insurer": "AMI"
+    },
+    {
+        "policy_number": "GIO2468101",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "Michael Brown",
+            "email": "m.brown@example.com",
+            "phone": "0412111222",
+            "address": "7 Pine St, Perth WA 6000"
+        },
+        "vehicle": {
+            "registration": "PER001",
+            "make": "Ford",
+            "model": "Ranger",
+            "year": 2022,
+            "colour": "Black"
+        },
+        "inception_date": "2024-07-20",
+        "expiry_date": "2025-07-19",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "GIO1357924",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "Emma Wilson",
+            "email": "emma.wilson@example.com",
+            "phone": "0455667788",
+            "address": "3 River Rd, Adelaide SA 5000"
+        },
+        "vehicle": {
+            "registration": "EMW001",
+            "make": "Mazda",
+            "model": "CX-5",
+            "year": 2023,
+            "colour": "Red"
+        },
+        "inception_date": "2024-09-10",
+        "expiry_date": "2025-09-09",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "AMI3330002",
+        "policy_type": "non-motor",
+        "status": "active",
+        "holder": {
+            "name": "Green Valley Farms",
+            "email": "accounts@greenvalleyfarms.com.au",
+            "phone": "0355501234",
+            "address": "Rural Route 4, Bendigo VIC 3550"
+        },
+        "vehicle": null,
+        "inception_date": "2024-11-01",
+        "expiry_date": "2025-10-31",
+        "insurer": "AMI"
+    },
+    {
+        "policy_number": "GIO7890000",
+        "policy_type": "motor",
+        "status": "lapsed",
+        "holder": {
+            "name": "David Lee",
+            "email": "dlee@example.com",
+            "phone": "0499000111",
+            "address": "22 Church Lane, Sydney NSW 2010"
+        },
+        "vehicle": {
+            "registration": "LAP001",
+            "make": "Nissan",
+            "model": "X-Trail",
+            "year": 2019,
+            "colour": "Silver"
+        },
+        "inception_date": "2023-01-01",
+        "expiry_date": "2024-01-01",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "GIO-M-001",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "John Smith",
+            "email": "john.smith@email.com",
+            "phone": "0412345678",
+            "address": "42 Banksia Street, Chatswood NSW 2067"
+        },
+        "vehicle": {
+            "registration": "ABC123",
+            "make": "Toyota",
+            "model": "Camry",
+            "year": 2021,
+            "colour": "Silver"
+        },
+        "inception_date": "2025-03-01",
+        "expiry_date": "2026-02-28",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "GIO-M-002",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "Helen Bradshaw",
+            "email": "helen.bradshaw@example.com",
+            "phone": "0400111222",
+            "address": "19 Grevillea Road, Strathfield NSW 2135"
+        },
+        "vehicle": {
+            "registration": "HB0001",
+            "make": "Toyota",
+            "model": "Corolla",
+            "year": 2018,
+            "colour": "White"
+        },
+        "inception_date": "2025-06-01",
+        "expiry_date": "2026-05-31",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "GIO-M-003",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "David O'Keefe",
+            "email": "david.okeefe@hotmail.com",
+            "phone": "0421654321",
+            "address": "5 Ironbark Close, Canberra ACT 2601"
+        },
+        "vehicle": {
+            "registration": "DO0003",
+            "make": "Subaru",
+            "model": "Outback",
+            "year": 2020,
+            "colour": "Dark Grey"
+        },
+        "inception_date": "2025-07-15",
+        "expiry_date": "2026-07-14",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "GIO-M-004",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "Robert Chen",
+            "email": "robert.chen@workmail.com",
+            "phone": "0433876543",
+            "address": "7 Elm Court, Surry Hills NSW 2010"
+        },
+        "vehicle": {
+            "registration": "DEF456",
+            "make": "Mazda",
+            "model": "CX-5",
+            "year": 2022,
+            "colour": "Red"
+        },
+        "inception_date": "2025-09-01",
+        "expiry_date": "2026-08-31",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "GIO-M-005",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "Priya Patel",
+            "email": "priya.patel@email.com.au",
+            "phone": "0477345678",
+            "address": "88 Jacaranda Drive, Penrith NSW 2750"
+        },
+        "vehicle": {
+            "registration": "JKL789",
+            "make": "Volkswagen",
+            "model": "Golf",
+            "year": 2020,
+            "colour": "Midnight Blue"
+        },
+        "inception_date": "2025-11-01",
+        "expiry_date": "2026-10-31",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "GIO-M-006",
+        "policy_type": "motor",
+        "status": "active",
+        "holder": {
+            "name": "Aisha Malik",
+            "email": "aisha.malik@gmail.com",
+            "phone": "0488234567",
+            "address": "3/19 Flinders Street, Melbourne VIC 3000"
+        },
+        "vehicle": {
+            "registration": "MNO321",
+            "make": "Hyundai",
+            "model": "Tucson",
+            "year": 2023,
+            "colour": "White"
+        },
+        "inception_date": "2025-12-01",
+        "expiry_date": "2026-11-30",
+        "insurer": "GIO"
+    },
+    {
+        "policy_number": "AMI-NM-001",
+        "policy_type": "non-motor",
+        "status": "active",
+        "holder": {
+            "name": "Margaret Nguyen",
+            "email": "margaret.nguyen@gmail.com",
+            "phone": "0296543210",
+            "address": "15 Waratah Avenue, Hornsby NSW 2077"
+        },
+        "vehicle": null,
+        "inception_date": "2025-04-01",
+        "expiry_date": "2026-03-31",
+        "insurer": "AMI"
+    },
+    {
+        "policy_number": "AMI-NM-002",
+        "policy_type": "non-motor",
+        "status": "active",
+        "holder": {
+            "name": "Liam O'Hara",
+            "email": "liam.ohara@iinet.net.au",
+            "phone": "0861234567",
+            "address": "24 Eucalyptus Lane, Subiaco WA 6008"
+        },
+        "vehicle": null,
+        "inception_date": "2025-08-01",
+        "expiry_date": "2026-07-31",
+        "insurer": "AMI"
+    }
+]

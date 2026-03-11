@@ -1,0 +1,104 @@
+{
+    "_comment": "Realistic mock LLM responses for non_motor_new_claim.txt — Liam O'Hara / AMI-NM-002 / burglary happy path.",
+    "EmailTypeResponse": {
+        "email_type": "freetext"
+    },
+    "InsuranceTypeResponse": {
+        "insurance_type": "non-motor"
+    },
+    "ClaimStatusResponse": {
+        "claim_type": "new_claim"
+    },
+    "ClaimsGroupingResponse": {
+        "claims": [
+            {
+                "description": "Home contents burglary — rear sliding door forced open at 24 Eucalyptus Lane Subiaco WA over weekend 09/03/2026. Multiple electronics and cash stolen. Police attended.",
+                "risk": "non-motor",
+                "unique_email_info": "Policy AMI-NM-002 — Liam O'Hara — police report WA-2026-112345 — estimated claim $7,315",
+                "attachments": []
+            }
+        ]
+    },
+    "VulnerabilityConfirmResponse": {
+        "confirmed": false,
+        "matched_phrases": [],
+        "severity_score": 0.0,
+        "notes": null
+    },
+    "ExtractedClaim": {
+        "insured_details": {
+            "policy_number": "AMI-NM-002",
+            "insured_name": "Liam Patrick O'Hara",
+            "insured_contact_name": {
+                "title": "Mr",
+                "first_name": "Liam",
+                "middle_name": "Patrick",
+                "last_name": "O'Hara"
+            },
+            "insured_numbers": [
+                {
+                    "number": "(08) 6123 4567",
+                    "type": "home"
+                },
+                {
+                    "number": "0402 987 654",
+                    "type": "mobile"
+                }
+            ],
+            "insured_email": "liam.ohara@iinet.net.au",
+            "claim_tax_status": null,
+            "intend_to_claim_itc": null,
+            "abn": null
+        },
+        "vehicle_information": {
+            "vehicle_registration": null,
+            "vehicle_make": null,
+            "vehicle_model": null,
+            "vehicle_year": null,
+            "vehicle_colour": null,
+            "vehicle_type": null
+        },
+        "drivers_details": {
+            "driver_name": null,
+            "driver_date_of_birth": null,
+            "driver_age": null,
+            "driver_licence_number": null,
+            "driver_licence_state": null,
+            "same_as_insured": null
+        },
+        "incident_details": {
+            "date_of_loss": "2026-03-09",
+            "incident_description": "Insured returned home on Monday 09/03/2026 to find rear sliding door forced open. Multiple items stolen including laptop, headphones, smartwatch, soundbar, PlayStation 5, cash, and wallet. Neighbours unaware. Police attended from Subiaco Station.",
+            "incident_address_lines": [
+                "24 Eucalyptus Lane"
+            ],
+            "incident_suburb": "Subiaco",
+            "incident_postcode": "6008",
+            "incident_state": "WA",
+            "vehicle_towed": null,
+            "vehicle_damage_description": "Rear sliding door frame and lock damaged by forced entry",
+            "police_report_number": "WA-2026-112345"
+        },
+        "third_party_driver": null,
+        "main_contact": {
+            "contact_name": {
+                "title": "Mr",
+                "first_name": "Liam",
+                "middle_name": null,
+                "last_name": "O'Hara"
+            },
+            "phone_numbers": [
+                {
+                    "number": "0402 987 654",
+                    "type": "mobile"
+                }
+            ],
+            "email": "liam.ohara@iinet.net.au"
+        },
+        "claim_reporter": null,
+        "conflict_metadata": {}
+    },
+    "ConflictResolutionResponse": {
+        "resolutions": []
+    }
+}

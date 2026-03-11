@@ -1,0 +1,104 @@
+{
+    "_comment": "Realistic mock LLM responses for non_motor_new_claim.eml — happy path to lodge.",
+    "EmailTypeResponse": {
+        "email_type": "freetext"
+    },
+    "InsuranceTypeResponse": {
+        "insurance_type": "non-motor"
+    },
+    "ClaimStatusResponse": {
+        "claim_type": "new_claim"
+    },
+    "ClaimsGroupingResponse": {
+        "claims": [
+            {
+                "description": "Home and contents claim — burst kitchen pipe causing water damage to flooring, cabinetry, fridge and walls at 15 Waratah Avenue Hornsby NSW",
+                "risk": "non-motor",
+                "unique_email_info": "Policy AMI-NM-001 — Margaret Nguyen — estimated total $15,000",
+                "attachments": []
+            }
+        ]
+    },
+    "VulnerabilityConfirmResponse": {
+        "confirmed": false,
+        "matched_phrases": [],
+        "severity_score": 0.0,
+        "notes": null
+    },
+    "ExtractedClaim": {
+        "insured_details": {
+            "policy_number": "AMI-NM-001",
+            "insured_name": "Margaret Thi Nguyen",
+            "insured_contact_name": {
+                "title": "Ms",
+                "first_name": "Margaret",
+                "middle_name": "Thi",
+                "last_name": "Nguyen"
+            },
+            "insured_numbers": [
+                {
+                    "number": "(02) 9876 5432",
+                    "type": "home"
+                },
+                {
+                    "number": "0455 123 789",
+                    "type": "mobile"
+                }
+            ],
+            "insured_email": "margaret.nguyen@gmail.com",
+            "claim_tax_status": null,
+            "intend_to_claim_itc": null,
+            "abn": null
+        },
+        "vehicle_information": {
+            "vehicle_registration": null,
+            "vehicle_make": null,
+            "vehicle_model": null,
+            "vehicle_year": null,
+            "vehicle_colour": null,
+            "vehicle_type": null
+        },
+        "drivers_details": {
+            "driver_name": null,
+            "driver_date_of_birth": null,
+            "driver_age": null,
+            "driver_licence_number": null,
+            "driver_licence_state": null,
+            "same_as_insured": null
+        },
+        "incident_details": {
+            "date_of_loss": "2026-03-07",
+            "incident_description": "Burst water pipe under kitchen sink caused flooding overnight. Water spread from kitchen into dining room. Damage includes saturated timber laminate flooring (~35 sqm), kitchen cabinetry and kickboards, Samsung refrigerator, an artwork, and misc pantry items. Emergency plumber attended and repaired pipe.",
+            "incident_address_lines": [
+                "15 Waratah Avenue"
+            ],
+            "incident_suburb": "Hornsby",
+            "incident_postcode": "2077",
+            "incident_state": "NSW",
+            "vehicle_towed": null,
+            "vehicle_damage_description": null,
+            "police_report_number": null
+        },
+        "third_party_driver": null,
+        "main_contact": {
+            "contact_name": {
+                "title": "Ms",
+                "first_name": "Margaret",
+                "middle_name": null,
+                "last_name": "Nguyen"
+            },
+            "phone_numbers": [
+                {
+                    "number": "0455 123 789",
+                    "type": "mobile"
+                }
+            ],
+            "email": "margaret.nguyen@gmail.com"
+        },
+        "claim_reporter": null,
+        "conflict_metadata": {}
+    },
+    "ConflictResolutionResponse": {
+        "resolutions": []
+    }
+}

@@ -1,0 +1,168 @@
+# Insurance Claims Pipeline (v1.0)
+
+End-to-end agentic AI pipeline that processes insurance claim emails through a LangGraph state machine, classifies them, extracts structured data, validates against policy records, and lodges the claim.
+
+---
+
+## Pipeline Architecture
+
+```
+START
+  └─► vulnerability_check
+        └─► classify_email
+              └─► classify
+                    ├─► exception_handler  (existing claim / error)
+                    └─► extract_data
+                          └─► verify
+                                ├─► exception_handler  (validation FAIL)
+                                └─► policy_retrieval
+                                      └─► enrich
+                                            └─► check_fields
+                                                  ├─► exception_handler  (missing fields)
+                                                  └─► lodge
+                                                        ├─► exception_handler  (lodge FAILED)
+                                                        └─► END
+```
+
+### Node Responsibilities
+
+| Node                  | Responsibility                                                         |
+| --------------------- | ---------------------------------------------------------------------- |
+| `vulnerability_check` | Two-stage keyword scan + LLM confirmation; flags vulnerable customers  |
+| `classify_email`      | Determines email type: `freetext`, `webform`, or `form`                |
+| `classify`            | Parallel LLM calls: insurance type, claim status, multi-claim grouping |
+| `extract_data`        | Structured extraction; two-stage for forms, single-pass otherwise      |
+| `verify`              | Pydantic re-validation + date/policy/phone/email rules                 |
+| `policy_retrieval`    | Matches claim to mock policy store (exact or fuzzy name)               |
+| `enrich`              | Fills null extracted fields from matched policy record                 |
+| `check_fields`        | Gates on mandatory fields (motor vs non-motor rules)                   |
+| `lodge`               | Writes to `lodged_claims.jsonl`; assigns `GIO-XXXXXXXX` reference      |
+| `exception_handler`   | Captures full state to `exceptions_queue.jsonl`                        |
+
+---
+
+## Setup
+
+### 1. Create and activate a virtual environment
+
+```bash
+python -m venv .venv
+source .venv/bin/activate      # macOS / Linux
+# .venv\Scripts\activate       # Windows
+```
+
+### 2. Install dependencies
+
+```bash
+pip install -r app_classify_extract_claim/requirements.txt
+# For development / testing:
+pip install -r app_classify_extract_claim/requirements-dev.txt
+```
+
+### 3. Configure environment
+
+```bash
+cp app_classify_extract_claim/.env.example .env
+# Edit .env and set GCP_PROJECT_ID (and optionally HTTPS_PROXY)
+```
+
+---
+
+## Running the pipeline
+
+### Locally (mock mode — no GCP calls)
+
+```bash
+MOCK_LLM=true python app_classify_extract_claim/run.py --input path/to/email.eml --pretty
+```
+
+### Locally (real Gemini)
+
+```bash
+# Ensure Application Default Credentials are set:
+gcloud auth application-default login
+
+python app_classify_extract_claim/run.py --input path/to/email.eml --pretty
+```
+
+### Supported input formats
+
+| Format | Notes                                                        |
+| ------ | ------------------------------------------------------------ |
+| `.eml` | Full RFC 2822 email; attachments are extracted automatically |
+| `.txt` | Plain-text email body; no attachment parsing                 |
+
+Attachments supported: PDF, DOCX, PNG/JPG/GIF/WEBP images (Gemini multimodal).
+
+---
+
+## Running Tests
+
+```bash
+# From the workspace root
+MOCK_LLM=true pytest app_classify_extract_claim/tests/ -v
+
+# With coverage
+MOCK_LLM=true pytest app_classify_extract_claim/tests/ --cov=app_classify_extract_claim --cov-report=term-missing
+```
+
+---
+
+## Output files
+
+| File                          | Contents                                              |
+| ----------------------------- | ----------------------------------------------------- |
+| `data/lodged_claims.jsonl`    | One JSON record per successfully lodged claim         |
+| `data/exceptions_queue.jsonl` | One JSON record per claim routed to exception handler |
+
+---
+
+## Project Structure
+
+```
+app_classify_extract_claim/
+├── config/
+│   └── settings.py          # Pydantic Settings (loaded from .env)
+├── data/
+│   ├── mock_policies.json   # Local policy store (v1.x)
+│   └── vulnera_phrases.csv  # Vulnerability keyword list
+├── graph/
+│   ├── builder.py           # StateGraph construction + compilation
+│   ├── state.py             # GraphState TypedDict + initial_state()
+│   └── nodes/
+│       ├── vulnerability_check.py
+│       ├── classify_email.py
+│       ├── classify.py
+│       ├── extract_data.py
+│       ├── verify.py
+│       ├── policy_retrieval.py
+│       ├── enrich.py
+│       ├── check_fields.py
+│       ├── lodge.py
+│       └── exception_handler.py
+├── prompts/                 # LLM prompt builders
+├── schemas/                 # Pydantic models
+├── services/
+│   ├── file_parser.py       # .eml / .txt / PDF / DOCX / image parsing
+│   ├── llm_client.py        # ChatVertexAI wrapper
+│   └── vulnerability_scanner.py
+├── tests/
+│   ├── conftest.py          # Shared fixtures
+│   ├── test_nodes/          # Unit tests per node
+│   └── test_graph/          # Integration tests
+├── run.py                   # CLI entry point
+├── requirements.txt
+└── requirements-dev.txt
+```
+
+---
+
+## Roadmap
+
+| Version | Scope                                                    |
+| ------- | -------------------------------------------------------- |
+| v1.0    | Core LangGraph pipeline, Gemini LLM, local JSONL outputs |
+| v1.1    | Streamlit inbox simulator UI                             |
+| v1.2    | FastAPI REST API + Redpanda (Kafka) event triggers       |
+| v2.0    | Real policy API, database persistence                    |
+| v2.1    | OpenCV image pre-processing, full observability          |

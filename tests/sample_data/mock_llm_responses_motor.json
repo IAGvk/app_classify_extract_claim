@@ -1,0 +1,120 @@
+{
+    "_comment": "Realistic mock LLM responses for motor_new_claim.eml — happy path to lodge.",
+    "EmailTypeResponse": {
+        "email_type": "freetext"
+    },
+    "InsuranceTypeResponse": {
+        "insurance_type": "motor"
+    },
+    "ClaimStatusResponse": {
+        "claim_type": "new_claim"
+    },
+    "ClaimsGroupingResponse": {
+        "claims": [
+            {
+                "description": "Motor vehicle rear-end collision on Pacific Highway, Chatswood NSW on 08/03/2026",
+                "risk": "motor",
+                "unique_email_info": "Policy GIO-M-001 — John Smith — Toyota Camry ABC123 — third party Sarah Thompson XYZ789",
+                "attachments": []
+            }
+        ]
+    },
+    "VulnerabilityConfirmResponse": {
+        "confirmed": false,
+        "matched_phrases": [],
+        "severity_score": 0.0,
+        "notes": null
+    },
+    "ExtractedClaim": {
+        "insured_details": {
+            "policy_number": "GIO-M-001",
+            "insured_name": "John Michael Smith",
+            "insured_contact_name": {
+                "title": "Mr",
+                "first_name": "John",
+                "middle_name": "Michael",
+                "last_name": "Smith"
+            },
+            "insured_numbers": [
+                {
+                    "number": "0412 345 678",
+                    "type": "mobile"
+                }
+            ],
+            "insured_email": "john.smith@email.com",
+            "claim_tax_status": null,
+            "intend_to_claim_itc": null,
+            "abn": null
+        },
+        "vehicle_information": {
+            "vehicle_registration": "ABC123",
+            "vehicle_make": "Toyota",
+            "vehicle_model": "Camry",
+            "vehicle_year": 2021,
+            "vehicle_colour": "Silver",
+            "vehicle_type": "sedan"
+        },
+        "drivers_details": {
+            "driver_name": {
+                "title": null,
+                "first_name": "John",
+                "middle_name": "Michael",
+                "last_name": "Smith"
+            },
+            "driver_date_of_birth": "1981-06-15",
+            "driver_age": 44,
+            "driver_licence_number": "12345678",
+            "driver_licence_state": "NSW",
+            "same_as_insured": true
+        },
+        "incident_details": {
+            "date_of_loss": "2026-03-08",
+            "incident_description": "Insured was stationary at a red traffic light on Pacific Highway when the vehicle behind failed to stop and rear-ended the insured vehicle. Significant damage to rear bumper, boot lid, and tailgate. Vehicle was towed to nearest authorised repairer.",
+            "incident_address_lines": [
+                "Pacific Highway"
+            ],
+            "incident_suburb": "Chatswood",
+            "incident_postcode": "2067",
+            "incident_state": "NSW",
+            "vehicle_towed": "Yes",
+            "vehicle_damage_description": "Rear bumper, boot lid, and tailgate damaged from rear-end impact",
+            "police_report_number": "2026/45678"
+        },
+        "third_party_driver": {
+            "tp_driver_name": {
+                "title": null,
+                "first_name": "Sarah",
+                "middle_name": "Louise",
+                "last_name": "Thompson"
+            },
+            "tp_contact_number": "0438 901 234",
+            "tp_address_lines": null,
+            "tp_suburb": null,
+            "tp_postcode": null,
+            "tp_state": null,
+            "tp_car_registration": "XYZ789",
+            "tp_vehicle_make": "Honda",
+            "tp_vehicle_model": "Civic"
+        },
+        "main_contact": {
+            "contact_name": {
+                "title": "Mr",
+                "first_name": "John",
+                "middle_name": null,
+                "last_name": "Smith"
+            },
+            "phone_numbers": [
+                {
+                    "number": "0412 345 678",
+                    "type": "mobile"
+                }
+            ],
+            "email": "john.smith@email.com"
+        },
+        "claim_reporter": null,
+        "conflict_metadata": {}
+    },
+    "ConflictResolutionResponse": {
+        "resolutions": []
+    }
+}

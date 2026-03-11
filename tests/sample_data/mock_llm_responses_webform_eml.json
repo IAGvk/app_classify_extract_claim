@@ -1,0 +1,120 @@
+{
+    "_comment": "Realistic mock LLM responses for webform_submission.eml — Robert Chen / GIO-M-004 / motor webform happy path.",
+    "EmailTypeResponse": {
+        "email_type": "webform"
+    },
+    "InsuranceTypeResponse": {
+        "insurance_type": "motor"
+    },
+    "ClaimStatusResponse": {
+        "claim_type": "new_claim"
+    },
+    "ClaimsGroupingResponse": {
+        "claims": [
+            {
+                "description": "Motor vehicle collision — merging onto Military Road Mosman, side impact with vehicle in right lane. Panel damage to both vehicles. No injuries.",
+                "risk": "motor",
+                "unique_email_info": "Policy GIO-M-004 — Robert Chen — Mazda CX-5 DEF456 — third party Wei Liang GHI012",
+                "attachments": []
+            }
+        ]
+    },
+    "VulnerabilityConfirmResponse": {
+        "confirmed": false,
+        "matched_phrases": [],
+        "severity_score": 0.0,
+        "notes": null
+    },
+    "ExtractedClaim": {
+        "insured_details": {
+            "policy_number": "GIO-M-004",
+            "insured_name": "Robert James Chen",
+            "insured_contact_name": {
+                "title": null,
+                "first_name": "Robert",
+                "middle_name": "James",
+                "last_name": "Chen"
+            },
+            "insured_numbers": [
+                {
+                    "number": "0433 876 543",
+                    "type": "mobile"
+                }
+            ],
+            "insured_email": "robert.chen@workmail.com",
+            "claim_tax_status": null,
+            "intend_to_claim_itc": null,
+            "abn": null
+        },
+        "vehicle_information": {
+            "vehicle_registration": "DEF456",
+            "vehicle_make": "Mazda",
+            "vehicle_model": "CX-5",
+            "vehicle_year": 2022,
+            "vehicle_colour": "Red",
+            "vehicle_type": "SUV"
+        },
+        "drivers_details": {
+            "driver_name": {
+                "title": null,
+                "first_name": "Robert",
+                "middle_name": "James",
+                "last_name": "Chen"
+            },
+            "driver_date_of_birth": "1988-08-12",
+            "driver_age": 37,
+            "driver_licence_number": null,
+            "driver_licence_state": "NSW",
+            "same_as_insured": true
+        },
+        "incident_details": {
+            "date_of_loss": "2026-03-09",
+            "incident_description": "Insured was merging onto Military Road when another vehicle travelling in the right lane did not give way. Side collision occurred. Both vehicles sustained panel damage. No injuries reported.",
+            "incident_address_lines": [
+                "Military Road"
+            ],
+            "incident_suburb": "Mosman",
+            "incident_postcode": "2088",
+            "incident_state": "NSW",
+            "vehicle_towed": "No",
+            "vehicle_damage_description": "Side panel damage from merging collision",
+            "police_report_number": null
+        },
+        "third_party_driver": {
+            "tp_driver_name": {
+                "title": null,
+                "first_name": "Wei",
+                "middle_name": null,
+                "last_name": "Liang"
+            },
+            "tp_contact_number": "0409 222 333",
+            "tp_address_lines": null,
+            "tp_suburb": null,
+            "tp_postcode": null,
+            "tp_state": null,
+            "tp_car_registration": "GHI012",
+            "tp_vehicle_make": "Hyundai",
+            "tp_vehicle_model": "i30"
+        },
+        "main_contact": {
+            "contact_name": {
+                "title": null,
+                "first_name": "Robert",
+                "middle_name": null,
+                "last_name": "Chen"
+            },
+            "phone_numbers": [
+                {
+                    "number": "0433 876 543",
+                    "type": "mobile"
+                }
+            ],
+            "email": "robert.chen@workmail.com"
+        },
+        "claim_reporter": null,
+        "conflict_metadata": {}
+    },
+    "ConflictResolutionResponse": {
+        "resolutions": []
+    }
+}

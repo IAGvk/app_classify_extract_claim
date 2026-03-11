@@ -1,0 +1,16 @@
+# Core pipeline
+langgraph>=0.2.0
+langchain-core>=0.3.0
+langchain-google-vertexai>=2.0.0
+
+# Schemas & config
+pydantic>=2.0.0
+pydantic-settings>=2.0.0
+
+# File parsing
+pypdf>=4.0.0
+python-docx>=1.0.0
+Pillow>=10.0.0
+
+# Utilities
+python-dotenv>=1.0.0
