@@ -82,11 +82,15 @@ jobs:
     # Deploy only on push to main (not on PRs — avoids publishing draft docs)
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     permissions:
-      contents: write   # required for gh-pages branch push
+      pages: write       # required by actions/deploy-pages
+      id-token: write    # required by actions/deploy-pages (OIDC)
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # full history needed for git-revision-date plugin
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -98,16 +102,19 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install -r app_classify_extract_claim/requirements-docs.txt
-          # Also install the project so mkdocstrings can import it
           pip install -r app_classify_extract_claim/requirements.txt
 
-      - name: Configure git for gh-pages push
-        run: |
-          git config user.name  "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Build and deploy docs to GitHub Pages
+      - name: Build docs
         working-directory: app_classify_extract_claim
         env:
           PYTHONPATH: ".."
-        run: mkdocs gh-deploy --force --clean
+        run: mkdocs build --strict
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: app_classify_extract_claim/site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
