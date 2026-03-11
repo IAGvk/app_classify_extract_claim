@@ -1,4 +1,5 @@
 """Tests for extract_data node."""
+
 from __future__ import annotations
 
 from unittest.mock import AsyncMock, patch
@@ -21,8 +22,14 @@ async def test_freetext_extraction(motor_state, extracted_motor_claim, mock_sett
     mock_client = _make_extract_client(extracted_motor_claim)
 
     with (
-        patch("app_classify_extract_claim.graph.nodes.extract_data.get_settings", return_value=mock_settings),
-        patch("app_classify_extract_claim.graph.nodes.extract_data.llm_module.LLMClient.from_settings", return_value=mock_client),
+        patch(
+            "app_classify_extract_claim.graph.nodes.extract_data.get_settings",
+            return_value=mock_settings,
+        ),
+        patch(
+            "app_classify_extract_claim.graph.nodes.extract_data.llm_module.LLMClient.from_settings",
+            return_value=mock_client,
+        ),
     ):
         result = await extract_data(motor_state)
 
@@ -37,8 +44,14 @@ async def test_webform_extraction(webform_state, extracted_motor_claim, mock_set
     mock_client = _make_extract_client(extracted_motor_claim)
 
     with (
-        patch("app_classify_extract_claim.graph.nodes.extract_data.get_settings", return_value=mock_settings),
-        patch("app_classify_extract_claim.graph.nodes.extract_data.llm_module.LLMClient.from_settings", return_value=mock_client),
+        patch(
+            "app_classify_extract_claim.graph.nodes.extract_data.get_settings",
+            return_value=mock_settings,
+        ),
+        patch(
+            "app_classify_extract_claim.graph.nodes.extract_data.llm_module.LLMClient.from_settings",
+            return_value=mock_client,
+        ),
     ):
         result = await extract_data(webform_state)
 
@@ -69,8 +82,14 @@ async def test_two_stage_form_extraction(extracted_motor_claim, mock_settings):
     )
 
     with (
-        patch("app_classify_extract_claim.graph.nodes.extract_data.get_settings", return_value=mock_settings),
-        patch("app_classify_extract_claim.graph.nodes.extract_data.llm_module.LLMClient.from_settings", return_value=mock_client),
+        patch(
+            "app_classify_extract_claim.graph.nodes.extract_data.get_settings",
+            return_value=mock_settings,
+        ),
+        patch(
+            "app_classify_extract_claim.graph.nodes.extract_data.llm_module.LLMClient.from_settings",
+            return_value=mock_client,
+        ),
     ):
         result = await extract_data(state)
 
@@ -85,8 +104,14 @@ async def test_extract_data_returns_none_on_error(motor_state, mock_settings):
     mock_client.ainvoke_structured = AsyncMock(side_effect=Exception("LLM error"))
 
     with (
-        patch("app_classify_extract_claim.graph.nodes.extract_data.get_settings", return_value=mock_settings),
-        patch("app_classify_extract_claim.graph.nodes.extract_data.llm_module.LLMClient.from_settings", return_value=mock_client),
+        patch(
+            "app_classify_extract_claim.graph.nodes.extract_data.get_settings",
+            return_value=mock_settings,
+        ),
+        patch(
+            "app_classify_extract_claim.graph.nodes.extract_data.llm_module.LLMClient.from_settings",
+            return_value=mock_client,
+        ),
     ):
         result = await extract_data(motor_state)
 

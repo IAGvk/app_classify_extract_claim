@@ -11,6 +11,7 @@ Strategy:
 
 Images are passed inline as base64 data URLs.
 """
+
 from __future__ import annotations
 
 import json
@@ -91,17 +92,13 @@ async def extract_data(state: GraphState) -> dict:
             # Stage 2: enrich with email body
             enrich_prompt = get_form_enrichment_prompt(stage1_json)
             stage2_content = [_email_text_block("Email Body (for enrichment):"), *attachment_parts]
-            result = await client.ainvoke_structured(
-                ExtractedClaim, enrich_prompt, stage2_content
-            )
+            result = await client.ainvoke_structured(ExtractedClaim, enrich_prompt, stage2_content)
 
         else:
             # ── Single pass: freetext ─────────────────────────────────────────
             logger.info("extract_data: freetext single-pass extraction")
             content = [_email_text_block(), *attachment_parts]
-            result = await client.ainvoke_structured(
-                ExtractedClaim, get_freetext_prompt(), content
-            )
+            result = await client.ainvoke_structured(ExtractedClaim, get_freetext_prompt(), content)
 
         extracted = result.model_dump()
         logger.info(

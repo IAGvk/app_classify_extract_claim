@@ -1,4 +1,5 @@
 """Pydantic models for structured LLM extraction output."""
+
 from __future__ import annotations
 
 from typing import Literal
@@ -6,6 +7,7 @@ from typing import Literal
 from pydantic import BaseModel, Field
 
 # ── Name / contact primitives ─────────────────────────────────────────────────
+
 
 class Name(BaseModel):
     title: str | None = None
@@ -24,6 +26,7 @@ class ContactNumber(BaseModel):
 
 
 # ── Sub-sections ──────────────────────────────────────────────────────────────
+
 
 class InsuredDetails(BaseModel):
     policy_number: str | None = None
@@ -91,6 +94,7 @@ class ClaimReporter(BaseModel):
 
 # ── Top-level extraction result ───────────────────────────────────────────────
 
+
 class ExtractedClaim(BaseModel):
     """Unified extraction schema usable for freetext, webform, and form-based emails."""
 
@@ -105,6 +109,7 @@ class ExtractedClaim(BaseModel):
 
 
 # ── LLM response helpers ──────────────────────────────────────────────────────
+
 
 class ClaimContext(BaseModel):
     """One claim identified within a multi-claim email."""

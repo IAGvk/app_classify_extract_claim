@@ -1,4 +1,5 @@
 """Shared pytest fixtures for the claims pipeline test suite."""
+
 from __future__ import annotations
 
 from pathlib import Path
@@ -114,7 +115,12 @@ def extracted_motor_claim() -> dict:
         "insured_details": {
             "policy_number": "GIO1234567",
             "insured_name": "Sarah Smith",
-            "insured_contact_name": {"title": None, "first_name": "Sarah", "middle_name": None, "last_name": "Smith"},
+            "insured_contact_name": {
+                "title": None,
+                "first_name": "Sarah",
+                "middle_name": None,
+                "last_name": "Smith",
+            },
             "insured_numbers": [{"number": "0412345678", "type": "mobile"}],
             "insured_email": "sarah.smith@example.com",
             "claim_tax_status": None,
@@ -130,7 +136,12 @@ def extracted_motor_claim() -> dict:
             "vehicle_type": None,
         },
         "drivers_details": {
-            "driver_name": {"title": None, "first_name": "Sarah", "middle_name": None, "last_name": "Smith"},
+            "driver_name": {
+                "title": None,
+                "first_name": "Sarah",
+                "middle_name": None,
+                "last_name": "Smith",
+            },
             "driver_date_of_birth": None,
             "driver_age": None,
             "driver_licence_number": None,
@@ -149,7 +160,12 @@ def extracted_motor_claim() -> dict:
             "police_report_number": None,
         },
         "third_party_driver": {
-            "tp_driver_name": {"title": None, "first_name": "John", "middle_name": None, "last_name": "Doe"},
+            "tp_driver_name": {
+                "title": None,
+                "first_name": "John",
+                "middle_name": None,
+                "last_name": "Doe",
+            },
             "tp_contact_number": None,
             "tp_address_lines": None,
             "tp_suburb": None,
@@ -160,12 +176,22 @@ def extracted_motor_claim() -> dict:
             "tp_vehicle_model": None,
         },
         "main_contact": {
-            "contact_name": {"title": None, "first_name": "Sarah", "middle_name": None, "last_name": "Smith"},
+            "contact_name": {
+                "title": None,
+                "first_name": "Sarah",
+                "middle_name": None,
+                "last_name": "Smith",
+            },
             "phone_numbers": [{"number": "0412345678", "type": "mobile"}],
             "email": "sarah.smith@example.com",
         },
         "claim_reporter": {
-            "reporter_name": {"title": None, "first_name": "Sarah", "middle_name": None, "last_name": "Smith"},
+            "reporter_name": {
+                "title": None,
+                "first_name": "Sarah",
+                "middle_name": None,
+                "last_name": "Smith",
+            },
             "party_type": "Claim_Reporter",
         },
         "conflict_metadata": {},

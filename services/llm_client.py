@@ -3,6 +3,7 @@
 In ``MOCK_LLM=true`` mode every call returns a configurable stub response,
 so the full pipeline can be exercised without GCP credentials.
 """
+
 from __future__ import annotations
 
 import json
@@ -75,9 +76,7 @@ class LLMClient:
             temperature=0.1,
             max_retries=0,
             api_transport="rest",
-            model_kwargs={
-                "generation_config": {"response_mime_type": "application/json"}
-            },
+            model_kwargs={"generation_config": {"response_mime_type": "application/json"}},
         )
         logger.info(
             "LLMClient ready  model=%s  project=%s  location=%s",
@@ -106,16 +105,16 @@ class LLMClient:
         if isinstance(human_content, str):
             human_content = [{"type": "text", "text": human_content}]
 
-        structured = (
-            self._llm.with_structured_output(schema).with_retry(
-                stop_after_attempt=retries,
-                wait_exponential_jitter=True,
-            )
+        structured = self._llm.with_structured_output(schema).with_retry(
+            stop_after_attempt=retries,
+            wait_exponential_jitter=True,
         )
-        response = await structured.ainvoke([
-            SystemMessage(system_prompt),
-            HumanMessage(content=human_content),
-        ])
+        response = await structured.ainvoke(
+            [
+                SystemMessage(system_prompt),
+                HumanMessage(content=human_content),
+            ]
+        )
         return response
 
     async def ainvoke_text(
@@ -135,10 +134,12 @@ class LLMClient:
             stop_after_attempt=retries,
             wait_exponential_jitter=True,
         )
-        response = await llm_with_retry.ainvoke([
-            SystemMessage(system_prompt),
-            HumanMessage(content=human_text),
-        ])
+        response = await llm_with_retry.ainvoke(
+            [
+                SystemMessage(system_prompt),
+                HumanMessage(content=human_text),
+            ]
+        )
         return response.content or ""
 
     # ── Mock helpers ──────────────────────────────────────────────────────────

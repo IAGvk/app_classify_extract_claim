@@ -2,6 +2,7 @@
 
 Ported and adapted from sample_guide_prompts.py with shared components.
 """
+
 from __future__ import annotations
 
 import json

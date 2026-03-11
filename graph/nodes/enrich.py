@@ -3,6 +3,7 @@
 Merges policy record data into the extracted claim, filling null fields
 with policy-known values and tagging enriched fields with source=policy_system.
 """
+
 from __future__ import annotations
 
 import copy
@@ -42,7 +43,9 @@ def _deep_merge(extracted: dict, policy: dict) -> dict:
         _fill(veh_ext, "vehicle_colour", vehicle.get("colour"), enrichment_log)
 
     if enrichment_log:
-        logger.info("enrich: filled %d field(s) from policy: %s", len(enrichment_log), enrichment_log)
+        logger.info(
+            "enrich: filled %d field(s) from policy: %s", len(enrichment_log), enrichment_log
+        )
     else:
         logger.info("enrich: no null fields to fill from policy")
 

@@ -1,4 +1,5 @@
 """LangGraph state definition for the claims pipeline."""
+
 from __future__ import annotations
 
 from typing import Any, TypedDict

@@ -1,4 +1,5 @@
 """Tests for exception_handler node."""
+
 from __future__ import annotations
 
 import json
@@ -16,7 +17,10 @@ async def test_exception_handler_writes_to_jsonl(motor_state, mock_settings, tmp
     motor_state["error_reason"] = "test error"
     motor_state["error_node"] = "classify"
 
-    with patch("app_classify_extract_claim.graph.nodes.exception_handler.get_settings", return_value=mock_settings):
+    with patch(
+        "app_classify_extract_claim.graph.nodes.exception_handler.get_settings",
+        return_value=mock_settings,
+    ):
         await exception_handler(motor_state)
 
     assert exc_path.exists()
@@ -31,7 +35,10 @@ async def test_exception_handler_captures_error_reason(motor_state, mock_setting
     motor_state["error_reason"] = "field validation failed"
     motor_state["error_node"] = "verify"
 
-    with patch("app_classify_extract_claim.graph.nodes.exception_handler.get_settings", return_value=mock_settings):
+    with patch(
+        "app_classify_extract_claim.graph.nodes.exception_handler.get_settings",
+        return_value=mock_settings,
+    ):
         await exception_handler(motor_state)
 
     records = [json.loads(line) for line in exc_path.read_text().splitlines()]
@@ -46,7 +53,10 @@ async def test_exception_handler_existing_claim_reason(motor_state, mock_setting
     motor_state["error_reason"] = "existing claim"
     motor_state["error_node"] = "classify"
 
-    with patch("app_classify_extract_claim.graph.nodes.exception_handler.get_settings", return_value=mock_settings):
+    with patch(
+        "app_classify_extract_claim.graph.nodes.exception_handler.get_settings",
+        return_value=mock_settings,
+    ):
         await exception_handler(motor_state)
 
     records = [json.loads(line) for line in exc_path.read_text().splitlines()]
@@ -60,7 +70,10 @@ async def test_exception_handler_exception_id_format(motor_state, mock_settings,
     motor_state["error_reason"] = "missing fields"
     motor_state["error_node"] = "check_fields"
 
-    with patch("app_classify_extract_claim.graph.nodes.exception_handler.get_settings", return_value=mock_settings):
+    with patch(
+        "app_classify_extract_claim.graph.nodes.exception_handler.get_settings",
+        return_value=mock_settings,
+    ):
         await exception_handler(motor_state)
 
     records = [json.loads(line) for line in exc_path.read_text().splitlines()]
@@ -74,7 +87,10 @@ async def test_exception_handler_multiple_exceptions_append(motor_state, mock_se
     mock_settings.exceptions_path = exc_path
     motor_state["error_reason"] = "error1"
 
-    with patch("app_classify_extract_claim.graph.nodes.exception_handler.get_settings", return_value=mock_settings):
+    with patch(
+        "app_classify_extract_claim.graph.nodes.exception_handler.get_settings",
+        return_value=mock_settings,
+    ):
         await exception_handler(motor_state)
         motor_state["error_reason"] = "error2"
         await exception_handler(motor_state)

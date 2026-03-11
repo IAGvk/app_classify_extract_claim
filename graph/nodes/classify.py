@@ -7,6 +7,7 @@ Three parallel LLM sub-tasks:
 
 All three calls are awaited concurrently via asyncio.gather.
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -108,7 +109,9 @@ async def classify(state: GraphState) -> dict:
 
         logger.info(
             "classify: type=%s  status=%s  claims=%d",
-            insurance_type, claim_status, len(claims),
+            insurance_type,
+            claim_status,
+            len(claims),
         )
         return {
             "insurance_type": insurance_type,

@@ -6,6 +6,7 @@ Usage:
     python run.py --input path/to/email.txt
     MOCK_LLM=true python run.py --input path/to/email.eml
 """
+
 from __future__ import annotations
 
 import argparse

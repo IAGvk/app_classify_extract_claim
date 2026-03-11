@@ -12,6 +12,7 @@ Triggered by:
   - lodge     → FAILED
   - any unhandled node error (error_node set)
 """
+
 from __future__ import annotations
 
 from datetime import UTC, datetime
@@ -90,7 +91,9 @@ async def exception_handler(state: GraphState) -> dict:
         _write_jsonl(exception_record, settings.exceptions_path)
         logger.warning(
             "exception_handler: recorded  id=%s  reason=%r  node=%s",
-            exception_record["exception_id"], error_reason, error_node,
+            exception_record["exception_id"],
+            error_reason,
+            error_node,
         )
     except Exception as exc:
         logger.error("exception_handler: failed to write JSONL: %s", exc)

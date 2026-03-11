@@ -12,6 +12,7 @@ Non-motor mandatory fields:
 All claims:
     insured_details must not be entirely empty
 """
+
 from __future__ import annotations
 
 import logging

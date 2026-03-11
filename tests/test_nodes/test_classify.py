@@ -1,4 +1,5 @@
 """Tests for classify node."""
+
 from __future__ import annotations
 
 from unittest.mock import AsyncMock, patch
@@ -44,8 +45,14 @@ async def test_motor_new_claim(motor_state, mock_settings):
     mock_client = _make_client(insurance="motor", status="new_claim")
 
     with (
-        patch("app_classify_extract_claim.graph.nodes.classify.get_settings", return_value=mock_settings),
-        patch("app_classify_extract_claim.graph.nodes.classify.llm_module.LLMClient.from_settings", return_value=mock_client),
+        patch(
+            "app_classify_extract_claim.graph.nodes.classify.get_settings",
+            return_value=mock_settings,
+        ),
+        patch(
+            "app_classify_extract_claim.graph.nodes.classify.llm_module.LLMClient.from_settings",
+            return_value=mock_client,
+        ),
     ):
         result = await classify(motor_state)
 
@@ -59,8 +66,14 @@ async def test_non_motor_new_claim(non_motor_state, mock_settings):
     mock_client = _make_client(insurance="non-motor", status="new_claim", claims=[])
 
     with (
-        patch("app_classify_extract_claim.graph.nodes.classify.get_settings", return_value=mock_settings),
-        patch("app_classify_extract_claim.graph.nodes.classify.llm_module.LLMClient.from_settings", return_value=mock_client),
+        patch(
+            "app_classify_extract_claim.graph.nodes.classify.get_settings",
+            return_value=mock_settings,
+        ),
+        patch(
+            "app_classify_extract_claim.graph.nodes.classify.llm_module.LLMClient.from_settings",
+            return_value=mock_client,
+        ),
     ):
         result = await classify(non_motor_state)
 
@@ -73,8 +86,14 @@ async def test_existing_claim_detected(existing_claim_state, mock_settings):
     mock_client = _make_client(insurance="motor", status="existing_claim", claims=[])
 
     with (
-        patch("app_classify_extract_claim.graph.nodes.classify.get_settings", return_value=mock_settings),
-        patch("app_classify_extract_claim.graph.nodes.classify.llm_module.LLMClient.from_settings", return_value=mock_client),
+        patch(
+            "app_classify_extract_claim.graph.nodes.classify.get_settings",
+            return_value=mock_settings,
+        ),
+        patch(
+            "app_classify_extract_claim.graph.nodes.classify.llm_module.LLMClient.from_settings",
+            return_value=mock_client,
+        ),
     ):
         result = await classify(existing_claim_state)
 
@@ -87,8 +106,14 @@ async def test_classify_survives_error(motor_state, mock_settings):
     mock_client.ainvoke_structured = AsyncMock(side_effect=RuntimeError("API error"))
 
     with (
-        patch("app_classify_extract_claim.graph.nodes.classify.get_settings", return_value=mock_settings),
-        patch("app_classify_extract_claim.graph.nodes.classify.llm_module.LLMClient.from_settings", return_value=mock_client),
+        patch(
+            "app_classify_extract_claim.graph.nodes.classify.get_settings",
+            return_value=mock_settings,
+        ),
+        patch(
+            "app_classify_extract_claim.graph.nodes.classify.llm_module.LLMClient.from_settings",
+            return_value=mock_client,
+        ),
     ):
         result = await classify(motor_state)
 

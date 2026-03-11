@@ -1,4 +1,5 @@
 """Integration tests for the full LangGraph pipeline."""
+
 from __future__ import annotations
 
 from pathlib import Path

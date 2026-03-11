@@ -1,4 +1,5 @@
 """Policy record schema (mock for v1.x)."""
+
 from __future__ import annotations
 
 from pydantic import BaseModel, Field

@@ -6,6 +6,7 @@ Looks up policy by:
 
 v2.x: replace _lookup_* functions with HTTP calls to the Policy API.
 """
+
 from __future__ import annotations
 
 import json
@@ -92,7 +93,8 @@ async def policy_retrieval(state: GraphState) -> dict:
         if not found:
             logger.info(
                 "policy_retrieval: no policy found  policy_number=%s  name=%s",
-                policy_number, insured_name,
+                policy_number,
+                insured_name,
             )
             return {"policy": None, "policy_found": False}
 

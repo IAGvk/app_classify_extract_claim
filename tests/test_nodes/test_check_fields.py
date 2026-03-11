@@ -1,4 +1,5 @@
 """Tests for check_fields node."""
+
 from __future__ import annotations
 
 import pytest
@@ -8,6 +9,7 @@ from app_classify_extract_claim.graph.nodes.check_fields import check_fields
 
 def _make_state_with_enriched(extracted_motor_claim, insurance_type="motor"):
     from app_classify_extract_claim.graph.state import initial_state
+
     state = initial_state("test", "body", [])
     state["enriched_claim"] = extracted_motor_claim
     state["insurance_type"] = insurance_type

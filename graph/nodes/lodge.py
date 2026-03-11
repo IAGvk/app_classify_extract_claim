@@ -5,6 +5,7 @@ lodgement record to ``data/lodged_claims.jsonl``.
 
 v2.x: replace _mock_lodge with real Claims Management System API call.
 """
+
 from __future__ import annotations
 
 from datetime import UTC, datetime
@@ -66,7 +67,9 @@ async def lodge(state: GraphState) -> dict:
 
         logger.info(
             "lodge: SUCCESS  reference=%s  type=%s  vulnerable=%s",
-            reference, insurance_type, vuln_flag,
+            reference,
+            insurance_type,
+            vuln_flag,
         )
         return {
             "claim_reference": reference,

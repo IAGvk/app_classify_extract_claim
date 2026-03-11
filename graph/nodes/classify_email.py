@@ -3,6 +3,7 @@
 Determines whether the email is a freetext narrative or a structured webform
 submission, routing downstream extraction to the correct prompt/schema.
 """
+
 from __future__ import annotations
 
 import logging

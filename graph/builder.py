@@ -14,6 +14,7 @@ Node execution order (happy path):
 
     exception_handler → END  (always terminal)
 """
+
 from __future__ import annotations
 
 import logging
@@ -36,6 +37,7 @@ logger = logging.getLogger(__name__)
 
 
 # ── Conditional edge functions ────────────────────────────────────────────────
+
 
 def _after_classify(state: GraphState) -> str:
     """Route to exception_handler for existing claims; otherwise extract_data."""
@@ -73,6 +75,7 @@ def _after_lodge(state: GraphState) -> str:
 
 
 # ── Graph factory ─────────────────────────────────────────────────────────────
+
 
 def build_graph() -> StateGraph:
     """Construct and compile the LangGraph pipeline.

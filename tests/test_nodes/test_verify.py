@@ -1,4 +1,5 @@
 """Tests for verify node."""
+
 from __future__ import annotations
 
 import pytest
@@ -23,8 +24,10 @@ async def test_verify_fail_on_none_claim(motor_state):
 
     result = await verify(motor_state)
     assert result["verification_result"] == "FAIL"
-    assert any("None" in e or "null" in e.lower() or "extracted_claim" in e.lower()
-               for e in result["verification_errors"])
+    assert any(
+        "None" in e or "null" in e.lower() or "extracted_claim" in e.lower()
+        for e in result["verification_errors"]
+    )
 
 
 @pytest.mark.asyncio

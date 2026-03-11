@@ -15,6 +15,7 @@ Result:
 - WARN  — non-critical issues (continue with warnings)
 - FAIL  — critical issues (route to exception_handler)
 """
+
 from __future__ import annotations
 
 from datetime import date, datetime
@@ -70,7 +71,9 @@ async def verify(state: GraphState) -> dict:
 
         # ── 2. Vulnerability escalation note ─────────────────────────────────
         if vuln_flag:
-            warnings.append("SENSITIVE_CLAIM: vulnerability flag set — escalate to sensitive claims handler")
+            warnings.append(
+                "SENSITIVE_CLAIM: vulnerability flag set — escalate to sensitive claims handler"
+            )
 
         # ── Result ────────────────────────────────────────────────────────────
         if errors:
@@ -83,7 +86,9 @@ async def verify(state: GraphState) -> dict:
         all_msgs = errors + warnings
         logger.info(
             "verify: result=%s  errors=%d  warnings=%d",
-            result, len(errors), len(warnings),
+            result,
+            len(errors),
+            len(warnings),
         )
         return {
             "verification_result": result,
@@ -101,6 +106,7 @@ async def verify(state: GraphState) -> dict:
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _check_date(claim: ExtractedClaim, errors: list, warnings: list) -> None:
     dol = claim.incident_details.date_of_loss

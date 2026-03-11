@@ -10,6 +10,7 @@ Supported input formats
 * ``.docx`` — text extracted via python-docx
 * Images (jpg, png, gif, webp, bmp) — base64-encoded for Gemini multimodal
 """
+
 from __future__ import annotations
 
 import base64
@@ -25,38 +26,53 @@ logger = logging.getLogger(__name__)
 
 # MIME → friendly label (also used for routing in extract_data)
 IMAGE_MIMES = {
-    "image/jpeg", "image/png", "image/gif", "image/webp", "image/bmp",
+    "image/jpeg",
+    "image/png",
+    "image/gif",
+    "image/webp",
+    "image/bmp",
 }
 TEXT_MIMES = {
-    "text/plain", "text/html",
+    "text/plain",
+    "text/html",
 }
 
 _SUPPORTED_ATTACHMENT_EXTS = {
-    ".pdf", ".docx", ".doc",
-    ".jpg", ".jpeg", ".png", ".gif", ".webp", ".bmp",
+    ".pdf",
+    ".docx",
+    ".doc",
+    ".jpg",
+    ".jpeg",
+    ".png",
+    ".gif",
+    ".webp",
+    ".bmp",
     ".txt",
 }
 
 
 class ParsedFile(TypedDict):
     """Single attachment / inline file extracted from an email."""
+
     filename: str
     mime_type: str
-    text_content: str | None     # extracted text (PDF, DOCX, plain-text attachments)
-    base64_content: str | None   # base64 string for images
-    raw_bytes: bytes             # always present; used for further processing
+    text_content: str | None  # extracted text (PDF, DOCX, plain-text attachments)
+    base64_content: str | None  # base64 string for images
+    raw_bytes: bytes  # always present; used for further processing
 
 
 class ParsedEmail(TypedDict):
     """Full parsed representation of an incoming email."""
+
     subject: str
     sender: str
     recipients: list[str]
-    body: str          # plain-text body (HTML stripped to plain fallback)
+    body: str  # plain-text body (HTML stripped to plain fallback)
     attachments: list[ParsedFile]
 
 
 # ── Public entry point ────────────────────────────────────────────────────────
+
 
 def parse_input(file_path: str | Path) -> ParsedEmail:
     """Parse an email input file (.eml or .txt) and all its attachments.
@@ -77,9 +93,7 @@ def parse_input(file_path: str | Path) -> ParsedEmail:
     elif ext == ".txt":
         return _parse_txt(path)
     else:
-        raise ValueError(
-            f"Unsupported input format '{ext}'. Accepted: .eml, .txt"
-        )
+        raise ValueError(f"Unsupported input format '{ext}'. Accepted: .eml, .txt")
 
 
 def parse_attachment_bytes(
@@ -99,6 +113,7 @@ def parse_attachment_bytes(
 
 
 # ── EML parsing ───────────────────────────────────────────────────────────────
+
 
 def _parse_eml(path: Path) -> ParsedEmail:
     raw = path.read_bytes()
@@ -139,7 +154,9 @@ def _parse_eml(path: Path) -> ParsedEmail:
     body = "\n\n".join(filter(None, body_parts))
     logger.info(
         "Parsed .eml: subject=%r  attachments=%d  body_chars=%d",
-        subject, len(attachments), len(body),
+        subject,
+        len(attachments),
+        len(body),
     )
     return ParsedEmail(
         subject=subject,
@@ -175,6 +192,7 @@ def _handle_attachment_part(
 
 # ── TXT parsing ───────────────────────────────────────────────────────────────
 
+
 def _parse_txt(path: Path) -> ParsedEmail:
     body = path.read_text(encoding="utf-8", errors="replace")
     logger.info("Parsed .txt: body_chars=%d", len(body))
@@ -189,6 +207,7 @@ def _parse_txt(path: Path) -> ParsedEmail:
 
 # ── Attachment processor ──────────────────────────────────────────────────────
 
+
 def _process_attachment(raw_bytes: bytes, filename: str, mime_type: str) -> ParsedFile:
     """Convert raw bytes to a ParsedFile with extracted text or base64."""
     ext = Path(filename).suffix.lower()
@@ -200,9 +219,12 @@ def _process_attachment(raw_bytes: bytes, filename: str, mime_type: str) -> Pars
         base64_content = base64.b64encode(raw_bytes).decode("ascii")
         if not mime_type or mime_type == "application/octet-stream":
             mime_type = {
-                ".jpg": "image/jpeg", ".jpeg": "image/jpeg",
-                ".png": "image/png", ".gif": "image/gif",
-                ".webp": "image/webp", ".bmp": "image/bmp",
+                ".jpg": "image/jpeg",
+                ".jpeg": "image/jpeg",
+                ".png": "image/png",
+                ".gif": "image/gif",
+                ".webp": "image/webp",
+                ".bmp": "image/bmp",
             }.get(ext, "image/jpeg")
 
     # ── PDF ────────────────────────────────────────────────────────────────
@@ -221,7 +243,9 @@ def _process_attachment(raw_bytes: bytes, filename: str, mime_type: str) -> Pars
         mime_type = "text/plain"
 
     else:
-        logger.debug("No text extractor for %s (%s) — stored as raw bytes only", filename, mime_type)
+        logger.debug(
+            "No text extractor for %s (%s) — stored as raw bytes only", filename, mime_type
+        )
 
     return ParsedFile(
         filename=filename,
@@ -234,6 +258,7 @@ def _process_attachment(raw_bytes: bytes, filename: str, mime_type: str) -> Pars
 
 # ── Text extractors ───────────────────────────────────────────────────────────
 
+
 def _extract_pdf_text(raw_bytes: bytes, filename: str) -> str | None:
     try:
         import pypdf  # type: ignore
@@ -245,7 +270,9 @@ def _extract_pdf_text(raw_bytes: bytes, filename: str) -> str | None:
             if text:
                 pages.append(text.strip())
         result = "\n\n".join(pages)
-        logger.debug("PDF %s: extracted %d chars from %d pages", filename, len(result), len(reader.pages))
+        logger.debug(
+            "PDF %s: extracted %d chars from %d pages", filename, len(result), len(reader.pages)
+        )
         return result or None
     except ImportError:
         logger.warning("pypdf not installed — cannot extract text from PDF %s", filename)
@@ -275,6 +302,7 @@ def _extract_docx_text(raw_bytes: bytes, filename: str) -> str | None:
 def _strip_html(html: str) -> str:
     """Very basic HTML tag stripper (no dependency on bs4)."""
     import re
+
     text = re.sub(r"<[^>]+>", " ", html)
     text = re.sub(r"&nbsp;", " ", text)
     text = re.sub(r"&amp;", "&", text)
@@ -285,6 +313,7 @@ def _strip_html(html: str) -> str:
 
 
 # ── LangChain multimodal content builder ──────────────────────────────────────
+
 
 def files_to_langchain_parts(
     parsed_files: list[ParsedFile],
@@ -303,22 +332,26 @@ def files_to_langchain_parts(
 
         if f["base64_content"]:
             # Image → inline data URL for Gemini multimodal
-            parts.append({
-                "type": "image_url",
-                "image_url": {
-                    "url": f"data:{f['mime_type']};base64,{f['base64_content']}"
-                },
-            })
+            parts.append(
+                {
+                    "type": "image_url",
+                    "image_url": {"url": f"data:{f['mime_type']};base64,{f['base64_content']}"},
+                }
+            )
         elif f["text_content"]:
-            parts.append({
-                "type": "text",
-                "text": f"[Attachment: {f['filename']}]\n{f['text_content']}",
-            })
+            parts.append(
+                {
+                    "type": "text",
+                    "text": f"[Attachment: {f['filename']}]\n{f['text_content']}",
+                }
+            )
         else:
             # No text extracted — note existence only
-            parts.append({
-                "type": "text",
-                "text": f"[Attachment: {f['filename']} — content could not be extracted]",
-            })
+            parts.append(
+                {
+                    "type": "text",
+                    "text": f"[Attachment: {f['filename']} — content could not be extracted]",
+                }
+            )
 
     return parts, filenames

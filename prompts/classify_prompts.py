@@ -1,4 +1,5 @@
 """Classification prompts — email type, insurance type, claim status, multi-claim."""
+
 from __future__ import annotations
 
 
