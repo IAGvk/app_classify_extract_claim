@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Literal
 
 from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -23,6 +24,19 @@ class Settings(BaseSettings):
 
     # ── Corporate proxy (optional) ────────────────────────────────────────────
     https_proxy: str | None = Field(default=None, alias="HTTPS_PROXY")
+
+    # ── API server ─────────────────────────────────────────────────────────────
+    api_port: int = Field(default=8000, alias="API_PORT")
+
+    # ── Kafka / Redpanda ──────────────────────────────────────────────────────
+    kafka_bootstrap_servers: str = Field(default="localhost:19092", alias="KAFKA_BOOTSTRAP_SERVERS")
+    kafka_topic_inbox: str = Field(default="claims.email.inbox", alias="KAFKA_TOPIC_INBOX")
+    kafka_consumer_group_id: str = Field(
+        default="claims-processor", alias="KAFKA_CONSUMER_GROUP_ID"
+    )
+    # Set KAFKA_CONSUMER_ENABLED=false to skip starting the consumer (e.g. in tests)
+    kafka_consumer_enabled: bool = Field(default=True, alias="KAFKA_CONSUMER_ENABLED")
+    broker_type: Literal["kafka", "pubsub"] = Field(default="kafka", alias="BROKER_TYPE")
 
     # ── Development / testing flags ───────────────────────────────────────────
     mock_llm: bool = Field(default=False, alias="MOCK_LLM")

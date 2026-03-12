@@ -1,4 +1,4 @@
-# Insurance Claims Pipeline (v1.1)
+# Insurance Claims Pipeline (v1.2)
 
 End-to-end agentic AI pipeline that processes insurance claim emails through a LangGraph state machine, classifies them, extracts structured data, validates against policy records, and lodges the claim.
 
@@ -68,7 +68,39 @@ cp .env.example .env
 
 ---
 
-## Running the pipeline
+## Running the API (FastAPI)
+
+### Docker Compose — full local stack (API + UI + Redpanda)
+
+```bash
+# From the repo root (parent of app_classify_extract_claim/)
+docker compose -f app_classify_extract_claim/docker/docker-compose.yml up --build
+```
+
+| Service                   | URL                        |
+| ------------------------- | -------------------------- |
+| Streamlit Inbox Simulator | http://localhost:8501      |
+| FastAPI (Swagger docs)    | http://localhost:8000/docs |
+| Redpanda Console          | http://localhost:8080      |
+
+### API only (without Docker Compose)
+
+```bash
+# Install deps first
+pip install -r requirements.txt
+
+# Start API (Kafka consumer disabled — no Redpanda needed)
+KAFKA_CONSUMER_ENABLED=false uvicorn app_classify_extract_claim.api.main:app --reload --port 8000
+```
+
+### Send a test email via the API
+
+```bash
+curl -X POST http://localhost:8000/process-email \
+     -F "email_file=@path/to/email.eml"
+```
+
+---
 
 ### Locally (mock mode — no GCP calls)
 
@@ -162,10 +194,11 @@ app_classify_extract_claim/
 
 ## Roadmap
 
-| Version  | Scope                                                                                          |
-| -------- | ---------------------------------------------------------------------------------------------- |
-| v1.0     | Core LangGraph pipeline, Gemini LLM, local JSONL outputs                                       |
-| **v1.1** | **Mock policy store, full lodge/enrich, conflict resolution, fixture-based integration tests** |
-| v1.2     | FastAPI REST API + Redpanda (Kafka) event triggers + Streamlit UI                              |
-| v2.0     | Real policy API, cloud Pub/Sub, database persistence                                           |
-| v2.1     | OpenCV image pre-processing, full observability, active learning                               |
+| Version  | Scope                                                                                      |
+| -------- | ------------------------------------------------------------------------------------------ |
+| v1.0     | Core LangGraph pipeline, Gemini LLM, local JSONL outputs                                   |
+| v1.1     | Mock policy store, full lodge/enrich, conflict resolution, fixture-based integration tests |
+| **v1.2** | **FastAPI REST API + Redpanda (Kafka) event triggers + Streamlit UI** ✓                    |
+| v1.3     | SQLite job persistence, `GET /status/{job_id}` polling, multi-claim fan-out stub           |
+| v2.0     | Real policy API, cloud Pub/Sub, Cloud Run, Secret Manager                                  |
+| v2.1     | OpenCV image pre-processing, full observability, active learning                           |

@@ -1,0 +1,33 @@
+# ── FastAPI Claims Processor API ─────────────────────────────────────────────
+# Build context: repo root (app_classify_extract_claim parent directory)
+#
+# Build:  docker build -f docker/Dockerfile.api -t claims-api .
+# Run:    docker run -p 8000:8000 --env-file app_classify_extract_claim/.env claims-api
+
+FROM python:3.11-slim
+
+# Prevent Python from writing .pyc files and enable unbuffered logs
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/app
+
+WORKDIR /app
+
+# Install dependencies first (layer-cached until requirements.txt changes)
+COPY app_classify_extract_claim/requirements.txt ./requirements.txt
+RUN pip install --no-cache-dir --upgrade pip \
+    && pip install --no-cache-dir -r requirements.txt
+
+# Copy entire package into the image
+COPY app_classify_extract_claim/ ./app_classify_extract_claim/
+
+# Expose API port
+EXPOSE 8000
+
+# Liveness probe — Docker will restart the container if this fails
+HEALTHCHECK --interval=15s --timeout=5s --start-period=10s --retries=3 \
+    CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" \
+    || exit 1
+
+CMD ["uvicorn", "app_classify_extract_claim.api.main:app", \
+    "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]

@@ -1,0 +1,126 @@
+# ── Claims Processor — Local Docker Compose Stack ────────────────────────────
+#
+# Services:
+#   redpanda         — Redpanda (Kafka-compatible) broker on port 19092
+#   redpanda-console — Web UI for browsing topics/messages on port 8080
+#   api              — FastAPI Claims Processor on port 8000
+#   ui               — Streamlit Inbox Simulator on port 8501
+#
+# Quick start (from repo root):
+#   docker compose -f app_classify_extract_claim/docker/docker-compose.yml up --build
+#
+# Access:
+#   Streamlit UI       → http://localhost:8501
+#   API docs (Swagger) → http://localhost:8000/docs
+#   Redpanda Console   → http://localhost:8080
+
+version: "3.9"
+
+services:
+
+  # ── Redpanda (Kafka-compatible message broker) ──────────────────────────────
+  redpanda:
+    image: redpandadata/redpanda:latest
+    container_name: claims-redpanda
+    command:
+      - redpanda start
+      - --smp 1
+      - --memory 512M
+      - --overprovisioned
+      - --kafka-addr INSIDE://0.0.0.0:9092,OUTSIDE://0.0.0.0:19092
+      - --advertise-kafka-addr INSIDE://redpanda:9092,OUTSIDE://localhost:19092
+      - --pandaproxy-addr 0.0.0.0:8082
+      - --advertise-pandaproxy-addr localhost:8082
+    ports:
+      - "19092:19092"   # External Kafka access (host machine / other containers)
+      - "8081:8081"     # Schema registry
+      - "8082:8082"     # Pandaproxy (REST)
+    volumes:
+      - redpanda-data:/var/lib/redpanda/data
+    healthcheck:
+      test: ["CMD-SHELL", "rpk cluster health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    restart: on-failure
+
+  # ── Redpanda Console (Topic browser) ───────────────────────────────────────
+  redpanda-console:
+    image: redpandadata/console:latest
+    container_name: claims-redpanda-console
+    environment:
+      KAFKA_BROKERS: "redpanda:9092"
+    ports:
+      - "8080:8080"
+    depends_on:
+      redpanda:
+        condition: service_healthy
+    restart: on-failure
+
+  # ── Topic initialisation (creates the inbox topic if it doesn't exist) ──────
+  redpanda-setup:
+    image: redpandadata/redpanda:latest
+    container_name: claims-redpanda-setup
+    depends_on:
+      redpanda:
+        condition: service_healthy
+    entrypoint: >
+      /bin/bash -c "
+        rpk topic create claims.email.inbox
+          --brokers redpanda:9092
+          --partitions 1
+          --replicas 1
+          || true
+      "
+    restart: "no"
+
+  # ── FastAPI Claims Processor API ────────────────────────────────────────────
+  api:
+    build:
+      context: ../..   # repo root (parent of app_classify_extract_claim/)
+      dockerfile: app_classify_extract_claim/docker/Dockerfile.api
+    container_name: claims-api
+    env_file:
+      - ../.env
+    environment:
+      KAFKA_BOOTSTRAP_SERVERS: "redpanda:9092"
+      KAFKA_CONSUMER_ENABLED: "true"
+      LOG_LEVEL: "INFO"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../app_classify_extract_claim/data:/app/app_classify_extract_claim/data
+    depends_on:
+      redpanda:
+        condition: service_healthy
+      redpanda-setup:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health')\""]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    restart: on-failure
+
+  # ── Streamlit Inbox Simulator UI ────────────────────────────────────────────
+  ui:
+    build:
+      context: ../..
+      dockerfile: app_classify_extract_claim/docker/Dockerfile.ui
+    container_name: claims-ui
+    environment:
+      API_URL: "http://api:8000"
+      MOCK_LLM: "false"
+    ports:
+      - "8501:8501"
+    volumes:
+      - ../../app_classify_extract_claim/data:/app/app_classify_extract_claim/data
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: on-failure
+
+volumes:
+  redpanda-data:
