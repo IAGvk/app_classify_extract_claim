@@ -13,6 +13,32 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.1.0] — 2026-03-12
+
+### Added
+
+- **Conflict resolution pass** in `extract_data` node — after primary extraction, when
+  `conflict_metadata` is non-empty the LLM is re-invoked with `ConflictResolutionResponse`
+  to determine whether conflicting values (e.g. `ABC123` vs `ABC-123`) are semantically
+  equivalent and consolidate to a canonical form
+- **`_apply_canonical()` helper** — writes resolved canonical values into the extracted dict
+  via dot-path (e.g. `vehicle_information.vehicle_registration`)
+- **Fixture-based integration tests** (`tests/test_graph/test_fixture_emails.py`) — three
+  full end-to-end pipeline runs over real `.eml` files with mock-LLM fixture responses:
+  - `motor_new_claim.eml` → assert `lodge_status == SUCCESS`, `insurance_type == motor`
+  - `non_motor_new_claim.eml` → assert `lodge_status == SUCCESS`, `insurance_type == non-motor`
+  - `webform_submission.eml` → assert `lodge_status == SUCCESS`, `insurance_type == motor`
+- Settings cache reset (`_settings = None`) in fixture-env pytest fixture ensures each
+  integration test receives a freshly-built `Settings` from the monkeypatched environment
+
+### Changed
+
+- `README.md` heading updated to v1.1; roadmap corrected to reflect actual version scope
+- `tests/test_graph/test_fixture_emails.py` fixture isolation improved with
+  `monkeypatch.setattr(_settings_mod, "_settings", None)`
+
+---
+
 ## [1.0.0] — 2025-01-01
 
 ### Added

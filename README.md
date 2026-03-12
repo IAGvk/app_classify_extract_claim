@@ -1,4 +1,4 @@
-# Insurance Claims Pipeline (v1.0)
+# Insurance Claims Pipeline (v1.1)
 
 End-to-end agentic AI pipeline that processes insurance claim emails through a LangGraph state machine, classifies them, extracts structured data, validates against policy records, and lodges the claim.
 
@@ -26,18 +26,18 @@ START
 
 ### Node Responsibilities
 
-| Node                  | Responsibility                                                         |
-| --------------------- | ---------------------------------------------------------------------- |
-| `vulnerability_check` | Two-stage keyword scan + LLM confirmation; flags vulnerable customers  |
-| `classify_email`      | Determines email type: `freetext`, `webform`, or `form`                |
-| `classify`            | Parallel LLM calls: insurance type, claim status, multi-claim grouping |
-| `extract_data`        | Structured extraction; two-stage for forms, single-pass otherwise      |
-| `verify`              | Pydantic re-validation + date/policy/phone/email rules                 |
-| `policy_retrieval`    | Matches claim to mock policy store (exact or fuzzy name)               |
-| `enrich`              | Fills null extracted fields from matched policy record                 |
-| `check_fields`        | Gates on mandatory fields (motor vs non-motor rules)                   |
-| `lodge`               | Writes to `lodged_claims.jsonl`; assigns `GIO-XXXXXXXX` reference      |
-| `exception_handler`   | Captures full state to `exceptions_queue.jsonl`                        |
+| Node                  | Responsibility                                                                              |
+| --------------------- | ------------------------------------------------------------------------------------------- |
+| `vulnerability_check` | Two-stage keyword scan + LLM confirmation; flags vulnerable customers                       |
+| `classify_email`      | Determines email type: `freetext`, `webform`, or `form`                                     |
+| `classify`            | Parallel LLM calls: insurance type, claim status, multi-claim grouping                      |
+| `extract_data`        | Structured extraction; two-stage for forms, single-pass otherwise; conflict resolution pass |
+| `verify`              | Pydantic re-validation + date/policy/phone/email rules                                      |
+| `policy_retrieval`    | Matches claim to mock policy store (exact or fuzzy name)                                    |
+| `enrich`              | Fills null extracted fields from matched policy record                                      |
+| `check_fields`        | Gates on mandatory fields (motor vs non-motor rules)                                        |
+| `lodge`               | Writes to `lodged_claims.jsonl`; assigns `GIO-XXXXXXXX` reference                           |
+| `exception_handler`   | Captures full state to `exceptions_queue.jsonl`                                             |
 
 ---
 
@@ -54,15 +54,15 @@ source .venv/bin/activate      # macOS / Linux
 ### 2. Install dependencies
 
 ```bash
-pip install -r app_classify_extract_claim/requirements.txt
+pip install -r requirements.txt
 # For development / testing:
-pip install -r app_classify_extract_claim/requirements-dev.txt
+pip install -r requirements-dev.txt
 ```
 
 ### 3. Configure environment
 
 ```bash
-cp app_classify_extract_claim/.env.example .env
+cp .env.example .env
 # Edit .env and set GCP_PROJECT_ID (and optionally HTTPS_PROXY)
 ```
 
@@ -99,11 +99,14 @@ Attachments supported: PDF, DOCX, PNG/JPG/GIF/WEBP images (Gemini multimodal).
 ## Running Tests
 
 ```bash
-# From the workspace root
-MOCK_LLM=true pytest app_classify_extract_claim/tests/ -v
+# Unit + integration tests (mock LLM — no GCP required)
+MOCK_LLM=true pytest tests/ -v
+
+# Fixture-based end-to-end tests (motor / non-motor / webform .eml files)
+MOCK_LLM=true pytest tests/test_graph/test_fixture_emails.py -v
 
 # With coverage
-MOCK_LLM=true pytest app_classify_extract_claim/tests/ --cov=app_classify_extract_claim --cov-report=term-missing
+MOCK_LLM=true pytest tests/ --cov=. --cov-report=term-missing
 ```
 
 ---
@@ -159,10 +162,10 @@ app_classify_extract_claim/
 
 ## Roadmap
 
-| Version | Scope                                                    |
-| ------- | -------------------------------------------------------- |
-| v1.0    | Core LangGraph pipeline, Gemini LLM, local JSONL outputs |
-| v1.1    | Streamlit inbox simulator UI                             |
-| v1.2    | FastAPI REST API + Redpanda (Kafka) event triggers       |
-| v2.0    | Real policy API, database persistence                    |
-| v2.1    | OpenCV image pre-processing, full observability          |
+| Version  | Scope                                                                                          |
+| -------- | ---------------------------------------------------------------------------------------------- |
+| v1.0     | Core LangGraph pipeline, Gemini LLM, local JSONL outputs                                       |
+| **v1.1** | **Mock policy store, full lodge/enrich, conflict resolution, fixture-based integration tests** |
+| v1.2     | FastAPI REST API + Redpanda (Kafka) event triggers + Streamlit UI                              |
+| v2.0     | Real policy API, cloud Pub/Sub, database persistence                                           |
+| v2.1     | OpenCV image pre-processing, full observability, active learning                               |

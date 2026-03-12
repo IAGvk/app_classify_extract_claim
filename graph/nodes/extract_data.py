@@ -23,12 +23,13 @@ from app_classify_extract_claim.config.settings import get_settings
 if TYPE_CHECKING:
     from app_classify_extract_claim.graph.state import GraphState
 from app_classify_extract_claim.prompts.extraction_prompts import (
+    get_conflict_check_prompt,
     get_form_enrichment_prompt,
     get_form_stage1_prompt,
     get_freetext_prompt,
     get_webform_prompt,
 )
-from app_classify_extract_claim.schemas.claim_data import ExtractedClaim
+from app_classify_extract_claim.schemas.claim_data import ConflictResolutionResponse, ExtractedClaim
 from app_classify_extract_claim.services import llm_client as llm_module
 from app_classify_extract_claim.services.file_parser import files_to_langchain_parts
 
@@ -39,6 +40,23 @@ _FORM_MIMES = {
     "application/pdf",
     "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
 }
+
+
+def _apply_canonical(data: dict[str, Any], field_path: str, value: str) -> None:
+    """Write *value* into *data* at the dot-separated *field_path*.
+
+    E.g. ``vehicle_information.vehicle_registration`` →
+    ``data["vehicle_information"]["vehicle_registration"] = value``.
+    Only writes if the intermediate keys exist.
+    """
+    parts = field_path.split(".")
+    node: Any = data
+    for part in parts[:-1]:
+        if not isinstance(node, dict) or part not in node:
+            return
+        node = node[part]
+    if isinstance(node, dict):
+        node[parts[-1]] = value
 
 
 def _has_form_attachments(raw_files: list[dict[str, Any]]) -> bool:
@@ -101,6 +119,40 @@ async def extract_data(state: GraphState) -> dict:
             result = await client.ainvoke_structured(ExtractedClaim, get_freetext_prompt(), content)
 
         extracted = result.model_dump()
+
+        # ── Conflict resolution pass ──────────────────────────────────────────
+        # If the LLM detected value conflicts between sources, run a second
+        # structured call to determine whether conflicting values are semantically
+        # equivalent (e.g. "ABC123" vs "ABC-123") and normalise to a canonical form.
+        conflict_meta: dict = extracted.get("conflict_metadata") or {}
+        if conflict_meta:
+            logger.info(
+                "extract_data: %d conflict(s) detected — running resolution pass",
+                len(conflict_meta),
+            )
+            conflicts_list = [
+                {"field_name": field, "values": sources} for field, sources in conflict_meta.items()
+            ]
+            try:
+                resolution_resp: ConflictResolutionResponse = await client.ainvoke_structured(
+                    ConflictResolutionResponse,
+                    get_conflict_check_prompt(conflicts_list),
+                    "Resolve the listed conflicts from the same insurance claim extraction.",
+                )
+                resolved_count = 0
+                for res in resolution_resp.resolutions:
+                    if res.is_equivalent and res.canonical_value is not None:
+                        _apply_canonical(extracted, res.field_name, res.canonical_value)
+                        resolved_count += 1
+                if resolved_count:
+                    logger.info(
+                        "extract_data: resolved %d equivalent conflict(s) to canonical values",
+                        resolved_count,
+                    )
+            except Exception as exc_cr:
+                # Conflict resolution is best-effort — log and continue
+                logger.warning("extract_data: conflict resolution pass failed: %s", exc_cr)
+
         logger.info(
             "extract_data: extracted policy=%s  date_of_loss=%s  vehicle_reg=%s",
             extracted.get("insured_details", {}).get("policy_number"),
