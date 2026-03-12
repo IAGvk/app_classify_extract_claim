@@ -8,6 +8,10 @@
 #   make test           Run test suite (MOCK_LLM=true, no GCP calls)
 #   make test-cov       Run tests with coverage report
 #   make run INPUT=...  Run the pipeline on a file
+#   make run-api        Start the FastAPI server (no Docker)
+#   make docker-up      Build and start the full Docker Compose stack
+#   make docker-down    Stop and remove the Docker Compose stack
+#   make docker-logs    Tail logs from the Docker Compose stack
 #   make docs           Serve docs locally (http://127.0.0.1:8000)
 #   make docs-build     Build static docs site to ./site/
 #   make docs-deploy    Deploy docs to GitHub Pages
@@ -44,8 +48,10 @@ help:
 	@echo "  make test             Unit tests (mock LLM, no GCP)"
 	@echo "  make test-cov         Unit tests with HTML coverage report"
 	@echo "  make run              Run pipeline on INPUT with FIXTURE"
-	@echo "  make run-plain        Run pipeline on INPUT (blank mock LLM)"
-	@echo "  make docs             Serve docs locally (http://127.0.0.1:8000)"
+	@echo "  make run-plain        Run pipeline on INPUT (blank mock LLM)"  @echo "  make run-api          Start FastAPI server (no Docker, consumer disabled)"
+  @echo "  make docker-up        Build + start full Docker Compose stack"
+  @echo "  make docker-down      Stop + remove Docker Compose stack"
+  @echo "  make docker-logs      Tail logs from Docker Compose stack"	@echo "  make docs             Serve docs locally (http://127.0.0.1:8000)"
 	@echo "  make docs-build       Build static docs site to ./site/"
 	@echo "  make docs-deploy      Deploy docs to GitHub Pages"
 	@echo "  make clean            Remove caches and build artefacts"
@@ -133,6 +139,33 @@ run-plain:
 	MOCK_LLM=true \
 	PYTHONPATH=$(PARENT_DIR) \
 	    $(PYTHON) run.py --input $(INPUT) --pretty
+
+# ── API server ────────────────────────────────────────────────────────────────
+.PHONY: run-api
+run-api:
+	KAFKA_CONSUMER_ENABLED=false \
+	PYTHONPATH=$(PARENT_DIR) \
+	    uvicorn app_classify_extract_claim.api.main:app \
+	        --reload --port 8000
+
+# ── Docker Compose ────────────────────────────────────────────────────────────
+DOCKER_COMPOSE := docker compose -f docker/docker-compose.yml
+
+.PHONY: docker-up
+docker-up:
+	$(DOCKER_COMPOSE) up --build
+
+.PHONY: docker-up-detach
+docker-up-detach:
+	$(DOCKER_COMPOSE) up --build -d
+
+.PHONY: docker-down
+docker-down:
+	$(DOCKER_COMPOSE) down
+
+.PHONY: docker-logs
+docker-logs:
+	$(DOCKER_COMPOSE) logs -f
 
 # ── Documentation ────────────────────────────────────────────────────────────
 .PHONY: docs

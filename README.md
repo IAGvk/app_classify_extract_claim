@@ -73,8 +73,11 @@ cp .env.example .env
 ### Docker Compose — full local stack (API + UI + Redpanda)
 
 ```bash
-# From the repo root (parent of app_classify_extract_claim/)
-docker compose -f app_classify_extract_claim/docker/docker-compose.yml up --build
+# From inside app_classify_extract_claim/ (your normal working directory)
+make docker-up
+
+# Or directly:
+docker compose -f docker/docker-compose.yml up --build
 ```
 
 | Service                   | URL                        |
